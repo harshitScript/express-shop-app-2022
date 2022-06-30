@@ -72,12 +72,28 @@ main {
   font-size: 1.2rem;
 }
 
-.form-control input {
+.form-control input
+ {
   border: 2px solid #f4f449;
   font: inherit;
   border-radius: 2px;
   height: 3rem;
   min-width: 300px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+}
+
+.form-control textarea{
+  border: 2px solid #f4f449;
+  font: inherit;
+  border-radius: 2px;
+  min-width: 300px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
 }
 
 .flex-box {

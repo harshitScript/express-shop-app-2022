@@ -1,4 +1,5 @@
-<%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs") %>
+<%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
+%>
 <main>
   <form class="product-form" method="POST" action="/admin/product">
     <div class="form-control">
@@ -10,6 +11,40 @@
         id="title"
         placeholder="enter title"
       />
+    </div>
+    <div class="form-control">
+      <label for="title"> Image Url : </label>
+      <input
+        type="text"
+        name="imageUrl"
+        required
+        id="imageUrl"
+        placeholder="enter image url"
+      />
+    </div>
+    <div class="form-control">
+      <label for="title"> Price : </label>
+      <input
+        type="number"
+        name="price"
+        required
+        id="price"
+        placeholder="enter price"
+        min="100"
+        max="1000000"
+        step="25"
+      />
+    </div>
+    <div class="form-control">
+      <label for="title"> Description : </label>
+      <textarea
+        type="text"
+        name="description"
+        required
+        id="description"
+        placeholder="enter description"
+        rows="6"
+      ></textarea>
     </div>
     <div class="form-control"><button>Add Product</button></div>
   </form>
