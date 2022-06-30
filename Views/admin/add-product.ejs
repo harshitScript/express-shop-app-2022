@@ -1,0 +1,24 @@
+<%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs") %>
+<main>
+  <form class="product-form" method="POST" action="/admin/product">
+    <div class="form-control">
+      <label for="title"> Title : </label>
+      <input
+        type="text"
+        name="title"
+        required
+        id="title"
+        placeholder="enter title"
+      />
+    </div>
+    <div class="form-control"><button>Add Product</button></div>
+  </form>
+</main>
+<%- include("../includes/end.ejs") %>
+
+<!--
+    The HTML5 body structure is:
+    <header></header>
+    <main></main>
+    <footer></footer>
+-->

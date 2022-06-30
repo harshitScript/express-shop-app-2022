@@ -1,0 +1,1 @@
+A folder as per convention to outsource files that are available to public. 
