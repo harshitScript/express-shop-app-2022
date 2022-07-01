@@ -6,6 +6,8 @@ const getAddProductsController = require("../controllers/admin/products/getAddPr
 const postProductsController = require("../Controllers/admin/products/postProductsController");
 const getEditProductsController = require("../controllers/admin/products/getEditProductsController");
 const getAdminProductsController = require("../controllers/admin/products/getAdminProductsController");
+const deleteProductController = require("../controllers/admin/products/deleteProductController");
+const editProductsController = require("../controllers/admin/products/editProductsController");
 
 const adminRoutes = express.Router();
 
@@ -29,8 +31,16 @@ adminRoutes.get(
   getAddProductsController
 );
 
-adminRoutes.get("/edit-product", getEditProductsController);
+adminRoutes.get("/edit-product/:id", getEditProductsController);
+
+adminRoutes.post(
+  "/edit-product/:id",
+  bodyParser.urlencoded({ extended: false }),
+  editProductsController
+);
 
 adminRoutes.get("/products", getAdminProductsController);
+
+adminRoutes.get("/delete-product/:id", deleteProductController);
 
 module.exports = { adminRoutes }; //? a valid middleware
