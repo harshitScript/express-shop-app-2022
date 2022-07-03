@@ -1,4 +1,53 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
 %>
-<h1>Cart</h1>
+<main>
+  <% if (cartData.length > 0) { %>
+  <div class="flex-box">
+    <% cartData.forEach(function(singleProduct){ %>
+    <article class="card product-item">
+      <header>
+        <h1 class="product__title"><%= singleProduct.title %></h1>
+        <div class="card__image">
+          <img
+            src="<%= singleProduct.imageUrl %>"
+            alt="image"
+            width="200px"
+            height="200px"
+          />
+        </div>
+        <div class="card__content">
+          <span class="product__price">₹<%= singleProduct.price %></span>
+          <p class="product__description"><%= singleProduct.description %></p>
+        </div>
+        <div class="card__actions">
+          <a href="#" class="btn">Checkout</a>
+          <form
+            method="POST"
+            action="/shop/cart/<%= singleProduct.id %>/delete"
+          >
+            <input
+              type="hidden"
+              name="product_id"
+              value="<%= singleProduct.id %>"
+            />
+            <button type="submit" class="btn">Remove</button>
+          </form>
+        </div>
+        <p class="product-id">#<%= singleProduct.id %></p>
+      </header>
+    </article>
+    <% }); %>
+  </div>
+
+  <% } else { %>
+  <p class="empty_cart_msg">Cart seems empty.</p>
+  <% } %>
+</main>
 <%- include("../includes/end.ejs") %>
+
+<!--
+    The HTML5 body structure is:
+    <header></header>
+    <main></main>
+    <footer></footer>
+-->

@@ -1,4 +1,28 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
-%>
-<h1>Product-Details</h1>
-<%- include("../includes/end.ejs") %>
+%> <% if(singleProduct){ %>
+<main class="product_details_main_grid">
+  <div class="grid_cell_1">
+    <div class="single_product_image_card">
+      <img
+        class="single_product_image"
+        src="<%= product.imageUrl %>"
+        alt="image"
+      />
+    </div>
+  </div>
+  <div class="grid_cell_2">
+    <h1 class="single_product_title"><%= singleProduct.title %></h1>
+    <hr />
+    <p class="single_product_price">₹<%= singleProduct?.price %></p>
+    <p class="single_product_description"><%= singleProduct?.description %></p>
+    <div class="product_details_card__actions">
+      <a href="/shop/" class="btn">Back</a>
+      <%- include("../includes/add-to-cart.ejs" , {singleProduct :
+      singleProduct}) %>
+    </div>
+  </div>
+</main>
+
+<% }else{ %>
+<h1>No product found.</h1>
+<% } %> <%- include("../includes/end.ejs") %>
