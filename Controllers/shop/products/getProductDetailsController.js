@@ -11,6 +11,7 @@ const getProductDetailsController = (req, res) => {
       docFooter: "Your product's overview.",
       path: "/shop/product-details",
       singleProduct: product,
+      noNavigation: false,
     });
   });
 };

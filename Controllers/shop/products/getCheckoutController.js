@@ -3,6 +3,7 @@ const getCheckoutController = (req, res, next) => {
     docTitle: "Checkout",
     docFooter: "Checkout your Cart.",
     path: "/shop/checkout",
+    noNavigation: false,
   });
 };
 

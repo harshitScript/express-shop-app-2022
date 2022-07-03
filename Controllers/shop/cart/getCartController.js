@@ -7,6 +7,7 @@ const getCartController = (req, res, next) => {
       docFooter: "Cart of your shop.",
       path: "/shop/cart",
       cartData: cartData,
+      noNavigation: false,
     });
   });
 };

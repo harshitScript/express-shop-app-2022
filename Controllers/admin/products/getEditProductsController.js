@@ -6,6 +6,7 @@ const getEditProductsController = (req, res) => {
     docFooter: "Edit Product of your shop.",
     path: "/admin/edit-product",
     productId: id,
+    noNavigation: false,
   });
 };
 

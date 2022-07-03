@@ -3,6 +3,7 @@ const errorController = (req, res) => {
     docTitle: "Page Not Found",
     docFooter: "Are you lost baby girl.",
     path: "none",
+    noNavigation: false,
   });
 };
 

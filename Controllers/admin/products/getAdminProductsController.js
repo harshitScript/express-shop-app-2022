@@ -7,6 +7,7 @@ const getAdminProductsController = (req, res) => {
       docFooter: "Products added by the admin.",
       path: "/admin/products",
       products,
+      noNavigation:false
     });
   };
 

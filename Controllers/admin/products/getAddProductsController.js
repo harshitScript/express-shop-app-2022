@@ -3,6 +3,7 @@ const getAddProductsController = (req, res, next) => {
     docTitle: "Add Products",
     docFooter: "Add Product to your shop.",
     path: "/admin/add-product",
+    noNavigation: false,
   });
 };
 

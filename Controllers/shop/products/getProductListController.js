@@ -6,13 +6,13 @@ const getProductListController = (req, res) => {
   //? Although we can use the previous approach to send custom responses.
   //* __dirname is a global variable which holds the absolute path upto the current working directory i.e. "routes" here.
 
- 
   const productsCallback = (products) => {
     return res.render("shop/product-list", {
       docTitle: "Product listing",
       products,
       docFooter: "Thanks for visiting my shop !",
       path: "/shop/",
+      noNavigation: false,
     });
   };
 

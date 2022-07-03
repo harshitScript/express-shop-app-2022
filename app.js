@@ -8,6 +8,7 @@ const path = require("path");
 const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const errorRoute = require("./routes/error");
+const homeRoute = require("./routes/home");
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.set("views", path.join(__dirname, "views")); //* registering the views direc
 app.use(express.static(path.join(__dirname, "public"))); //? This will serve static/public files from public folder.
 app.use("/admin", adminRoutes); //? Execute First *will filter request starting with /admin route*
 app.use("/shop", shopRoutes); //? Execute Second *will filter request starting with /admin route*
+app.use(homeRoute);
 app.use(errorRoute); //? Execute Third
 
 //? Server
