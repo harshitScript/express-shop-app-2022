@@ -1,12 +1,16 @@
-const getEditProductsController = (req, res) => {
-  const { id } = req.params;
+const Products = require("../../../Modals/product");
 
-  return res.render("admin/edit-product", {
-    docTitle: "Edit Products",
-    docFooter: "Edit Product of your shop.",
-    path: "/admin/edit-product",
-    productId: id,
-    noNavigation: false,
+const getEditProductsController = (req, res) => {
+  const { id } = req.query;
+
+  Products.findBYId(id, (product) => {
+    return res.render("admin/edit-product", {
+      docTitle: "Edit Products",
+      docFooter: "Edit Product of your shop.",
+      path: "/admin/edit-product",
+      product: product,
+      noNavigation: false,
+    });
   });
 };
 

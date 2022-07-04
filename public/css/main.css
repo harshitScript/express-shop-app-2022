@@ -54,7 +54,7 @@ main {
 
 .product-form {
   margin: 0 auto;
-  width: fit-content;
+  width: auto;
 }
 
 .form-control {

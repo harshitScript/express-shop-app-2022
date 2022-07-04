@@ -1,10 +1,10 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
 %>
-<main>
+<main class="flex-row-centered">
   <form
     class="product-form"
     method="POST"
-    action="/admin/edit-product/<%= productId %>"
+    action="/admin/edit-product/<%= product?.id %>"
   >
     <div class="form-control">
       <label for="title"> Id* : </label>
@@ -14,7 +14,7 @@
         required
         id="id"
         placeholder="enter product id"
-        value="<%= productId %>"
+        value="<%= product.id %>"
       />
     </div>
     <div class="form-control">
@@ -25,6 +25,7 @@
         required
         id="title"
         placeholder="enter title"
+        value="<%= product.title %>"
       />
     </div>
     <div class="form-control">
@@ -35,6 +36,7 @@
         required
         id="imageUrl"
         placeholder="enter image url"
+        value="<%= product.imageUrl %>"
       />
     </div>
     <div class="form-control">
@@ -48,6 +50,7 @@
         min="100"
         max="1000000"
         step="25"
+        value="<%= product.price %>"
       />
     </div>
     <div class="form-control">
@@ -59,7 +62,9 @@
         id="description"
         placeholder="enter description"
         rows="6"
-      ></textarea>
+      >
+<%= product.description  %></textarea
+      >
     </div>
     <div class="form-control"><button>Edit Product</button></div>
   </form>

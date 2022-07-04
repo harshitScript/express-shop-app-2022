@@ -31,7 +31,7 @@ adminRoutes.get(
   getAddProductsController
 );
 
-adminRoutes.get("/edit-product/:id", getEditProductsController);
+adminRoutes.get("/edit-product", getEditProductsController);
 
 adminRoutes.post(
   "/edit-product/:id",
@@ -39,8 +39,8 @@ adminRoutes.post(
   editProductsController
 );
 
-adminRoutes.get("/products", getAdminProductsController);
+adminRoutes.get("/delete-product", deleteProductController);
 
-adminRoutes.get("/delete-product/:id", deleteProductController);
+adminRoutes.get("/products", getAdminProductsController);
 
 module.exports = { adminRoutes }; //? a valid middleware

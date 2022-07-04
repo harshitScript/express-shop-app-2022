@@ -1,7 +1,7 @@
 const Product = require("../../../Modals/product");
 
 const deleteProductController = (req, res) => {
-  const { id } = req.params;
+  const { id } = req.query;
 
   return Product.delete(id, () => {
     return res.redirect("/admin/products");
