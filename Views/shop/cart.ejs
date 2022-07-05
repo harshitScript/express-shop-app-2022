@@ -36,11 +36,15 @@
       </div>
 
       <div class="card__actions">
-        <a href="#" class="btn">Pay ₹ <%= singleProduct.totalPrice %></a>
+        <a href="#" class="btn">₹ <%= singleProduct.totalPrice %></a>
       </div>
     </article>
     <% }); %>
   </div>
+
+  <form method="POST" action="shop/checkout">
+    <button class="floating_pay_button">Pay ₹<%= cartTotal %></button>
+  </form>
 
   <% } else { %>
   <p class="empty_cart_msg">Cart seems empty.</p>

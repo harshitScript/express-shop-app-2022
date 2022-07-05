@@ -37,7 +37,7 @@ body {
 .main-header__item a:hover,
 .main-header__item a:active,
 .active {
-  color: rgb(38, 241, 123) !important;
+  color: lightgreen !important;
 }
 
 main {
@@ -198,11 +198,16 @@ button,
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
 }
 button:hover,
 .btn:hover {
-  border: 2px solid rgb(38, 241, 123);
-  color: rgb(38, 241, 123);
+  border: 2px solid lightgreen;
+  color: lightgreen;
 }
 
 .rounded {
@@ -321,4 +326,33 @@ button:hover,
   font-size: 1.5rem;
   font-weight: bold;
   color: grey;
+}
+
+.floating_pay_button {
+  min-width: 10rem;
+  min-height: 3rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 100px;
+  right: 50px;
+  background: yellow;
+  box-shadow: 0px 0px 3px black;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  color: #000;
+  font-weight: bold;
+  transition: all 0.5s ease-out;
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+}
+
+.floating_pay_button:hover {
+  background: lightgreen;
+  color: #fff;
 }

@@ -108,4 +108,15 @@ module.exports = class Cart {
       });
     });
   }
+
+  static getCartTotal(callback = () => {}) {
+    getCartProductsFromFile((cartData) => {
+      const cartTotal = cartData.reduce(
+        (acc, curr) => (acc += +curr.totalPrice),
+        0
+      );
+
+      callback(cartTotal);
+    });
+  }
 };
