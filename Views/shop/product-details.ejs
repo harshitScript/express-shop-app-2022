@@ -5,13 +5,13 @@
     <div class="single_product_image_card">
       <img
         class="single_product_image"
-        src="<%= product.imageUrl %>"
+        src="<%= singleProduct?.imageURL %>"
         alt="image"
       />
     </div>
   </div>
   <div class="grid_cell_2">
-    <h1 class="single_product_title"><%= singleProduct.title %></h1>
+    <h1 class="single_product_title"><%= singleProduct?.title %></h1>
     <hr />
     <p class="single_product_price">₹<%= singleProduct?.price %></p>
     <p class="single_product_description"><%= singleProduct?.description %></p>

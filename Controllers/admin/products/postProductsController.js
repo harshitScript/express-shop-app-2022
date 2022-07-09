@@ -4,9 +4,16 @@ const postProductsController = (req, res) => {
   const { title, price, description, imageUrl } = req.body;
   const product = new Product(title, imageUrl, price, description);
 
-  product.save(() => {
-    return res.redirect("/shop/");
-  });
+  const successCallback = () => {
+    return res.redirect("/admin/products");
+  };
+
+  const failureCallback = (error) => {
+    console.log(error.message);
+    return res.redirect("/");
+  };
+
+  product.save(successCallback, failureCallback);
 };
 
 module.exports = { middleWare: postProductsController };

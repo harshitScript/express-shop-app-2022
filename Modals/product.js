@@ -1,43 +1,32 @@
+const sqlPool = require("../util/database");
 const fs = require("fs");
 const path = require("path");
 const rootDir = require("../util/path");
 const p = path.join(rootDir, "Data", "products.json");
-
-const getProductsFromFile = (callback = () => {}) => {
-  fs.readFile(p, (err, fileData) => {
-    if (err) {
-      return callback([]);
-    }
-    return callback(JSON.parse(fileData));
-  });
-};
 
 module.exports = class Product {
   //? "this" keyword refer to the object to be returned by the class.
 
   constructor(title, imageUrl, price, description) {
     this.title = title;
-    this.imageUrl = imageUrl;
+    this.imageURL = imageUrl;
     this.price = price;
     this.description = description;
-    this.id = Math.random()?.toFixed(2)?.toString();
   }
 
   //? will be called on the instance object.
-  save(callback = () => {}) {
-    getProductsFromFile((products) => {
-      //! "this" should always be kept within class.
-      products.push(this);
-
-      fs.writeFile(p, JSON.stringify(products), (err) => {
-        if (err) return console.log("Error while saving data.");
-        callback();
-      });
-    });
+  save(successCallback, failureCallback) {
+    sqlPool
+      .execute(
+        "INSERT INTO products (title, price, description, imageURL) VALUES (?, ?, ?, ?)",
+        [this.title, this.price, this.description, this.imageURL]
+      )
+      .then(successCallback)
+      .catch(failureCallback);
   }
 
   static delete(product_id, callback = () => {}) {
-    getProductsFromFile((products) => {
+    getProductsFromDB((products) => {
       const updatedProducts = products.filter(
         (product) => product.id !== product_id
       );
@@ -50,7 +39,7 @@ module.exports = class Product {
   }
 
   edit(productId, callback = () => {}) {
-    getProductsFromFile((products) => {
+    getProductsFromDB((products) => {
       let updatedProducts = products.filter(
         (product) => product.id !== productId
       );
@@ -65,17 +54,20 @@ module.exports = class Product {
   }
 
   //? will be called on the class itself
-  static fetchAll(callback = () => {}) {
-    getProductsFromFile(callback);
+  static fetchAll(successCallback, failureCallback) {
+    sqlPool
+      .execute(`SELECT * FROM products`)
+      .then(successCallback)
+      .catch(failureCallback);
+
+    /*  return sqlPool.execute(`SELECT * FROM products`); */
   }
 
-  static findBYId(product_id, callback) {
-    getProductsFromFile((products) => {
-      const matchedProduct =
-        products.find((product) => product?.id === product_id) || {};
-
-      callback(matchedProduct);
-    });
+  static findBYId(product_id, successCallback, failureCallback) {
+    sqlPool
+      .execute(`SELECT * FROM products WHERE (id = ?)`, [product_id])
+      .then(successCallback)
+      .catch(failureCallback);
   }
 };
 

@@ -3,8 +3,8 @@ const Products = require("../../../Modals/product");
 const getProductDetailsController = (req, res) => {
   const productId = req?.params?.id;
 
-  Products.fetchAll((products) => {
-    const product = products.find((product) => product.id === productId);
+  const successCallback = ([productArray]) => {
+    const [product] = productArray;
 
     return res.render("shop/product-details", {
       docTitle: `Product Details : ${product?.title}`,
@@ -13,7 +13,14 @@ const getProductDetailsController = (req, res) => {
       singleProduct: product,
       noNavigation: false,
     });
-  });
+  };
+
+  const failureCallback = (error) => {
+    console.log(error.message);
+    return res.redirect("/");
+  };
+
+  Products.findBYId(productId, successCallback, failureCallback);
 };
 
 module.exports = getProductDetailsController;
