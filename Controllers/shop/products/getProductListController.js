@@ -6,7 +6,7 @@ const getProductListController = (req, res) => {
   //? Although we can use the previous approach to send custom responses.
   //* __dirname is a global variable which holds the absolute path upto the current working directory i.e. "routes" here.
 
-  const productsCallback = ([products]) => {
+  const productsCallback = (products) => {
     return res.render("shop/product-list", {
       docTitle: "Product listing",
       products,
@@ -20,7 +20,14 @@ const getProductListController = (req, res) => {
     console.log(error.message);
     return res.redirect("/");
   };
-  Product.fetchAll(productsCallback, productsFailureCallback);
+
+  Product.findAll({
+    where: {
+      //? conditions to be matched.
+    },
+  })
+    .then(productsCallback)
+    .catch(productsFailureCallback);
 
   /* res.writeHead(302, "Redirection", { location: "/message" });
         return res.end(); */

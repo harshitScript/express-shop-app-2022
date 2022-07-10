@@ -1,7 +1,7 @@
 const Product = require("../../../Modals/product");
 
 const getAdminProductsController = (req, res) => {
-  const adminProductsListCallback = ([products]) => {
+  const adminProductsListCallback = (products) => {
     return res.render("admin/products", {
       docTitle: "Admin Products",
       docFooter: "Products added by the admin.",
@@ -16,8 +16,13 @@ const getAdminProductsController = (req, res) => {
     return res.redirect("/");
   };
 
-  //? not to use "new" cause it indicates a instance.
-  Product.fetchAll(adminProductsListCallback, adminProductsListFailureCallback);
+  Product.findAll({
+    where: {
+      //? conditions to be matched.
+    },
+  })
+    .then(adminProductsListCallback)
+    .catch(adminProductsListFailureCallback);
 };
 
 module.exports = getAdminProductsController;

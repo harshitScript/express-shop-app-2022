@@ -1,10 +1,10 @@
-const Products = require("../../../Modals/product");
+const Product = require("../../../Modals/product");
 
 const getProductDetailsController = (req, res) => {
   const productId = req?.params?.id;
 
-  const successCallback = ([productArray]) => {
-    const [product] = productArray;
+  const successCallback = ({ dataValues }) => {
+    const product = { ...dataValues };
 
     return res.render("shop/product-details", {
       docTitle: `Product Details : ${product?.title}`,
@@ -20,7 +20,18 @@ const getProductDetailsController = (req, res) => {
     return res.redirect("/");
   };
 
-  Products.findBYId(productId, successCallback, failureCallback);
+  Product.findByPk(productId).then(successCallback).catch(failureCallback);
+
+  //! It can also be used
+  /* Product.findAll({
+    where: {
+      id: productId,
+    },
+  })
+    .then(([product]) => {
+      console.log("The product is: ", product);
+    })
+    .catch((error) => {}); */
 };
 
 module.exports = getProductDetailsController;

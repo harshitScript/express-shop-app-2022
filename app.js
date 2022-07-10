@@ -9,6 +9,7 @@ const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
+const sequelizePool = require("./util/database");
 
 const app = express();
 
@@ -58,7 +59,18 @@ server.listen(4000, (err) => {
   console.log("Server is listening on port 4000");
 }); */
 
-app.listen(4000, (err) => {
-  if (err) return console.log("Error in starting server");
-  console.log("Server is listening on port 4000");
-});
+//? Syncing the tables/modals with the database.
+sequelizePool
+  .sync()
+  .then((res) => {
+    //? Creates a new table when executed first time , if tables does not exist.
+    //? After it will update the table if any changes are made to the model.
+
+    app.listen(4000, (err) => {
+      if (err) return console.log("Error in starting server");
+      console.log("Server is listening on port 4000");
+    });
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });

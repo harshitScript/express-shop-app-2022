@@ -1,8 +1,7 @@
 const Product = require("../../../Modals/product");
 
 const postProductsController = (req, res) => {
-  const { title, price, description, imageUrl } = req.body;
-  const product = new Product(title, imageUrl, price, description);
+  const { title, price, description, imageURL } = req.body;
 
   const successCallback = () => {
     return res.redirect("/admin/products");
@@ -13,7 +12,9 @@ const postProductsController = (req, res) => {
     return res.redirect("/");
   };
 
-  product.save(successCallback, failureCallback);
+  Product.create({ title, price, description, imageURL })
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = { middleWare: postProductsController };
