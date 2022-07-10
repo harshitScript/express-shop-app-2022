@@ -3,9 +3,7 @@ const Product = require("../../../Modals/product");
 const getProductDetailsController = (req, res) => {
   const productId = req?.params?.id;
 
-  const successCallback = ({ dataValues }) => {
-    const product = { ...dataValues };
-
+  const successCallback = (product) => {
     return res.render("shop/product-details", {
       docTitle: `Product Details : ${product?.title}`,
       docFooter: "Your product's overview.",

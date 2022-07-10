@@ -10,6 +10,8 @@ const shopRoutes = require("./routes/shop");
 const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
 const sequelizePool = require("./util/database");
+const Product = require("./Modals/product");
+const User = require("./Modals/user");
 
 const app = express();
 
@@ -59,9 +61,14 @@ server.listen(4000, (err) => {
   console.log("Server is listening on port 4000");
 }); */
 
+//? Relations
+Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(Product);
+
 //? Syncing the tables/modals with the database.
+//! force : true will drop the table if it already exists.(not recommended in production)
 sequelizePool
-  .sync()
+  .sync({ force: true })
   .then((res) => {
     //? Creates a new table when executed first time , if tables does not exist.
     //? After it will update the table if any changes are made to the model.
