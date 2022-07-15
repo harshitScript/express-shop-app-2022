@@ -14,7 +14,7 @@ module.exports = pool.promise(); */
 const Sequelize = require("sequelize");
 
 //? It will set up a connection pool behind the scenes
-const sequelize = new Sequelize("express-first-project", "root", "hrsht-x007", {
+const sequelize = new Sequelize("express_first_project", "root", "hrsht-x007", {
   dialect: "mysql",
   host: "localhost",
 });

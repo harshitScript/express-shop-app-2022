@@ -1,4 +1,4 @@
-const Cart = require("../../../Modals/cart");
+const Cart = require("../../../Modals/cart/cart");
 
 const addToCartController = (req, res, next) => {
   const { product_id } = req.body;

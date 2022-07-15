@@ -21,6 +21,7 @@ const getProductListController = (req, res) => {
     return res.redirect("/");
   };
 
+  //? This will fetch all the products from the Product modal.
   Product.findAll({
     where: {
       //? conditions to be matched.

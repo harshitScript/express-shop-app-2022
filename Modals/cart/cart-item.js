@@ -1,16 +1,14 @@
 const Sequelize = require("sequelize");
-const sequelize = require("../util/database");
 
-//? Foreign key field should never define during Modal creation.
+const sequelizePool = require("../../util/database");
 
-const Product = sequelize.define("product", {
+const CartItem = sequelizePool.define("cartItem", {
   id: {
     type: Sequelize.INTEGER,
+    primaryKey: true,
     allowNull: false,
     autoIncrement: true,
-    primaryKey: true,
   },
-  //? title : Sequelize.STRING, : Short cut syntax to assign only type to a field.
   title: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -27,7 +25,14 @@ const Product = sequelize.define("product", {
     type: Sequelize.STRING,
     allowNUll: false,
   },
+  quantity: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  totalPrice: {
+    type: Sequelize.DOUBLE,
+    allowNull: false,
+  },
 });
 
-//? All the methods are pre-available on the Product model
-module.exports = Product;
+module.exports = CartItem;
