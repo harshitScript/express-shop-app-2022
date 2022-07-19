@@ -1,4 +1,4 @@
-/* const Product = require("../../../Modals/product"); */
+const Product = require("../../../Modals/product");
 
 const postProductsController = (req, res) => {
   const { title, price, description, imageURL } = req.body;

@@ -17,7 +17,7 @@ const getCartController = (req, res) => {
   user
     .getCart()
     .then((cart) => {
-      return cart.getCartItems();
+      return cart.getProducts();
     })
     .then(successCallback)
     .catch((error) => {

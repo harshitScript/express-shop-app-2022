@@ -13,7 +13,7 @@ const sequelizePool = require("./util/database");
 const Product = require("./Modals/product");
 const User = require("./Modals/user");
 const Cart = require("./Modals/cart/cart");
-const CartItem = require("./Modals/cart/cart-item");
+const CartProduct = require("./Modals/cart/cartProduct");
 
 const app = express();
 
@@ -93,14 +93,8 @@ server.listen(4000, (err) => {
 User.hasOne(Cart);
 Cart.belongsTo(User, { onDelete: "CASCADE" });
 
-Cart.belongsToMany(CartItem, { through: "itemsInCart" });
-CartItem.belongsToMany(Cart, { through: "itemsInCart", onDelete: "CASCADE" });
-
-Product.belongsToMany(CartItem, { through: "productsAsCartItem" });
-CartItem.belongsToMany(Product, {
-  through: "productsAsCartItem",
-  onDelete: "CASCADE",
-});
+Cart.belongsToMany(Product, { through: CartProduct });
+Product.belongsToMany(Cart, { through: CartProduct, onDelete: "CASCADE" });
 
 /* 
 

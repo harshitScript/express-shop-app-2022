@@ -18,14 +18,13 @@ const getProductDetailsController = (req, res) => {
     return res.redirect("/");
   };
 
-  //? This will find the product from the Product modal that are associated with this user.
-  req.user
-    .getProducts({ where: { id: productId } })
+  Product.findAll({
+    where: {
+      id: productId,
+    },
+  })
     .then(successCallback)
     .catch(failureCallback);
-
-  //? This will find a product with the given id in the Product modal.
-  /* Product.findByPk(productId).then(successCallback).catch(failureCallback); */
 
   //! It can also be used
   /* Product.findAll({
