@@ -14,6 +14,8 @@ const Product = require("./Modals/product");
 const User = require("./Modals/user");
 const Cart = require("./Modals/cart/cart");
 const CartProduct = require("./Modals/cart/cartProduct");
+const Order = require("./Modals/orders/order");
+const OrderProduct = require("./Modals/orders/orderProduct");
 
 const app = express();
 
@@ -90,11 +92,21 @@ server.listen(4000, (err) => {
 
 //* Relations
 
+//* USER - CART
 User.hasOne(Cart);
 Cart.belongsTo(User, { onDelete: "CASCADE" });
 
+//* CART - PRODUCT
 Cart.belongsToMany(Product, { through: CartProduct });
 Product.belongsToMany(Cart, { through: CartProduct, onDelete: "CASCADE" });
+
+//* USER - ORDERS
+User.hasMany(Order);
+Order.belongsTo(User, { onDelete: "CASCADE" });
+
+//* Order - Product
+Order.belongsToMany(Product, { through: OrderProduct });
+Product.belongsToMany(Order, { through: OrderProduct });
 
 /* 
 
@@ -111,7 +123,7 @@ Product.belongsTo(Cart, { constraints: true, onDelete: "CASCADE" });
 //? Syncing the tables/modals with the database.
 //! force : true will drop the table if it already exists.(not recommended in production)
 sequelizePool
-  .sync(/* { force: true } */)
+  .sync(/*{ force: true }*/)
   .then(() => {
     return User.findByPk(1);
 

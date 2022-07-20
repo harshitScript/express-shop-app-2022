@@ -1,0 +1,25 @@
+<%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
+%>
+<main>
+  <% if (ordersData.length > 0) { %>
+  <div class="flex-box">
+    <% ordersData.forEach(function(order){ %>
+    <article class="card cart-product-item">
+      <b> Order #<%= order?.id %> </b>
+      <a href="/shop/order-overview/<%= order?.id %>" class="btn">Overview</a>
+    </article>
+    <% }); %>
+  </div>
+
+  <% } else { %>
+  <p class="empty_cart_msg">No Orders !</p>
+  <% } %>
+</main>
+<%- include("../includes/end.ejs") %>
+
+<!--
+    The HTML5 body structure is:
+    <header></header>
+    <main></main>
+    <footer></footer>
+-->

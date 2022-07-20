@@ -8,7 +8,7 @@
       <div class="card-product-img-title">
         <img
           class="cart_product_image"
-          src="<%= singleProduct.imageUrl %>"
+          src="<%= singleProduct.imageURL %>"
           alt="image"
         />
 
@@ -41,12 +41,22 @@
           %></a
         >
       </div>
+      <div class="card__actions">
+        <form method="POST" action="/shop/cart/<%= singleProduct?.id %>/delete">
+          <input
+            type="hidden"
+            name="product_id"
+            value="<%= singleProduct?.id %>"
+          />
+          <button class="btn red">Delete</button>
+        </form>
+      </div>
     </article>
     <% }); %>
   </div>
 
-  <form method="POST" action="shop/checkout">
-    <button class="floating_pay_button">Pay ₹<%= cartTotal %></button>
+  <form method="POST" action="/shop/orders">
+    <button class="floating_pay_button">Checkout</button>
   </form>
 
   <% } else { %>

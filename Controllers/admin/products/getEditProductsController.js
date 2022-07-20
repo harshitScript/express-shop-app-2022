@@ -1,3 +1,5 @@
+const Product = require("../../../Modals/product");
+
 const getEditProductsController = (req, res) => {
   const { id } = req.query;
 
@@ -14,7 +16,9 @@ const getEditProductsController = (req, res) => {
     console.log(error.message);
   };
 
-  Product.findByPk(id).then(successCallback).catch(failureCallback);
+  Product.findAll({ where: { id: id } })
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = getEditProductsController;
