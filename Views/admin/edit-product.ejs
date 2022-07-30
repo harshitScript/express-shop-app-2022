@@ -4,7 +4,7 @@
   <form
     class="product-form"
     method="POST"
-    action="/admin/edit-product/<%= product?.id %>"
+    action="/admin/edit-product/<%= product?._id %>"
   >
     <div class="form-control">
       <label for="title"> Id* : </label>
@@ -14,7 +14,9 @@
         required
         id="id"
         placeholder="enter product id"
-        value="<%= product.id %>"
+        value="<%= product._id %>"
+        readonly
+        style="opacity : 0.7;"
       />
     </div>
     <div class="form-control">

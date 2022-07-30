@@ -3,7 +3,7 @@ const Product = require("../../../Modals/product");
 const getEditProductsController = (req, res) => {
   const { id } = req.query;
 
-  const successCallback = ([product]) => {
+  const successCallback = (product) => {
     return res.render("admin/edit-product", {
       docTitle: "Edit Products",
       docFooter: "Edit Product of your shop.",
@@ -16,9 +16,7 @@ const getEditProductsController = (req, res) => {
     console.log(error.message);
   };
 
-  Product.findAll({ where: { id: id } })
-    .then(successCallback)
-    .catch(failureCallback);
+  Product.findById(id, successCallback, failureCallback);
 };
 
 module.exports = getEditProductsController;

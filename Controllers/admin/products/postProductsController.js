@@ -12,9 +12,9 @@ const postProductsController = (req, res) => {
     return res.redirect("/");
   };
 
-  Product.create({ title, price, description, imageURL })
-    .then(successCallback)
-    .catch(failureCallback);
+  const product = new Product({ title, price, description, imageURL });
+
+  product.save(successCallback, failureCallback);
 };
 
 module.exports = { middleWare: postProductsController };

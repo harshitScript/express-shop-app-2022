@@ -1,22 +1,28 @@
-//? database === schema
+const mongoDb = require("mongodb");
 
-/* const mySQL = require("mysql2");
+const MongoClient = mongoDb.MongoClient;
 
-const pool = mySQL.createPool({
-  host: "localhost",
-  user: "root",
-  password: "hrsht-x007",
-  database: "express-first-project",
-});
+let _db;
 
-module.exports = pool.promise(); */
+const connectMongo = (successCallback, failureCallback) => {
+  const connectionSuccessCallback = (client) => {
+    _db = client.db("express_first_project");
+    successCallback();
+  };
 
-const Sequelize = require("sequelize");
+  MongoClient.connect(
+    "mongodb+srv://harshitScript:hrsht-x007@cluster0.gjnrywi.mongodb.net/express_first_project?retryWrites=true&w=majority"
+  )
+    .then(connectionSuccessCallback)
+    .catch(failureCallback);
+};
 
-//? It will set up a connection pool behind the scenes
-const sequelize = new Sequelize("express_first_project", "root", "hrsht-x007", {
-  dialect: "mysql",
-  host: "localhost",
-});
+const getDb = () => {
+  if (_db) {
+    return _db;
+  } else {
+    console.log("No Database Found!");
+  }
+};
 
-module.exports = sequelize;
+module.exports = { connectMongo, getDb };
