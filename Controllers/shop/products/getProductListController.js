@@ -17,18 +17,11 @@ const getProductListController = (req, res) => {
   };
 
   const productsFailureCallback = (error) => {
-    console.log(error.message);
     return res.redirect("/");
   };
 
   //? This will fetch all the products from the Product modal.
-  Product.findAll({
-    where: {
-      //? conditions to be matched.
-    },
-  })
-    .then(productsCallback)
-    .catch(productsFailureCallback);
+  Product.fetchAll(productsCallback, productsFailureCallback);
 
   /* res.writeHead(302, "Redirection", { location: "/message" });
         return res.end(); */

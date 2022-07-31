@@ -57,6 +57,44 @@ class Product {
       failureCallback(err);
     }
   }
+
+  static update(
+    updateProduct = {
+      _id: "",
+      title: "",
+      price: "",
+      imageURL: "",
+      description: "",
+    },
+    successCallback,
+    failureCallback
+  ) {
+    const _db = getDb();
+
+    const { _id, ...tempUpdateProduct } = updateProduct;
+
+    const productCollection = _db.collection("products");
+
+    productCollection
+      .updateOne({ _id: new ObjectId(_id) }, { $set: { ...tempUpdateProduct } })
+      .then(successCallback)
+      .catch(failureCallback);
+  }
+
+  static deleteById(
+    _id = "",
+    successCallback = () => {},
+    failureCallback = () => {}
+  ) {
+    const _db = getDb();
+
+    const productCollection = _db.collection("products");
+
+    productCollection
+      .deleteOne({ _id: new ObjectId(_id) })
+      .then(successCallback)
+      .catch(failureCallback);
+  }
 }
 
 module.exports = Product;

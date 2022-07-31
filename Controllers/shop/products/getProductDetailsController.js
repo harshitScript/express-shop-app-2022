@@ -18,13 +18,7 @@ const getProductDetailsController = (req, res) => {
     return res.redirect("/");
   };
 
-  Product.findAll({
-    where: {
-      id: productId,
-    },
-  })
-    .then(successCallback)
-    .catch(failureCallback);
+  Product.findById(productId, successCallback, failureCallback);
 
   //! It can also be used
   /* Product.findAll({

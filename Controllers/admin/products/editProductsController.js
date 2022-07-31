@@ -4,27 +4,23 @@ const editProductsController = (req, res) => {
   const { id } = req.params;
   const { title, price, imageUrl, description } = req.body;
 
-  const successCallback = (product) => {
-    product.title = title;
-    product.price = price;
-    product.imageURl = imageUrl;
-    product.description = description;
-
-    return product.save();
+  const updateProduct = {
+    _id: id,
+    title,
+    price,
+    imageUrl,
+    description,
   };
 
   const failureCallback = (error) => {
-    console.log(error.message);
+    console.log("The error is : ", error.message);
   };
 
-  const productUpdatedCallback = () => {
+  const successCallback = () => {
     return res.redirect("/admin/products");
   };
 
-  Product.findByPk(id)
-    .then(successCallback)
-    .then(productUpdatedCallback)
-    .catch(failureCallback);
+  Product.update(updateProduct, successCallback, failureCallback);
 };
 
 module.exports = editProductsController;

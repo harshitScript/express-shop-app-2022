@@ -14,9 +14,11 @@ const getOrderOverviewController = require("../controllers/shop/order/getOrderOv
 
 const shopRoutes = express.Router();
 
-shopRoutes.get("/", getProductListController); //? we can define multiple middleware/requestHandler.
-
-shopRoutes.get("/cart", getCartController);
+shopRoutes.post(
+  "/cart/:id/delete",
+  bodyParser.urlencoded({ extended: false }),
+  deleteCartProductController
+);
 
 shopRoutes.post(
   "/cart/:id",
@@ -24,11 +26,7 @@ shopRoutes.post(
   addToCartController
 );
 
-shopRoutes.post(
-  "/cart/:id/delete",
-  bodyParser.urlencoded({ extended: false }),
-  deleteCartProductController
-);
+shopRoutes.get("/cart", getCartController);
 
 shopRoutes.get("/orders", getOrdersController);
 
@@ -37,5 +35,7 @@ shopRoutes.post("/orders", postOrdersController);
 shopRoutes.get("/order-overview/:orderId", getOrderOverviewController);
 
 shopRoutes.get("/product-details/:id", getProductDetailsController);
+
+shopRoutes.get("/", getProductListController);
 
 module.exports = shopRoutes; //? a valid middleware
