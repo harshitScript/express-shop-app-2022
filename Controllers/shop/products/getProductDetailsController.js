@@ -3,7 +3,7 @@ const Product = require("../../../Modals/product");
 const getProductDetailsController = (req, res) => {
   const productId = req?.params?.id;
 
-  const successCallback = ([product]) => {
+  const successCallback = (product) => {
     return res.render("shop/product-details", {
       docTitle: `Product Details : ${product?.title}`,
       docFooter: "Your product's overview.",
@@ -14,7 +14,7 @@ const getProductDetailsController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log(error.message);
+    console.log("The error is :", error);
     return res.redirect("/");
   };
 

@@ -1,48 +1,24 @@
-const Product = require("../../../Modals/product");
+const User = require("../../../Modals/User");
 
 const addToCartController = (req, res, next) => {
   const { product_id } = req.body;
 
   const { user } = req;
 
-  let tempCart = {};
-
-  const productsGenerator = (cart) => {
-    tempCart = cart;
-
-    return cart.getProducts({ where: { id: product_id } });
-  };
-
-  const productAdder = ([productInCart]) => {
-    if (productInCart) {
-      return tempCart.addProduct(productInCart, {
-        through: {
-          quantity: productInCart.cartProduct.quantity + 1,
-        },
-      });
-    } else {
-      return tempCart.addProduct(product_id, {
-        through: {
-          quantity: 1,
-        },
-      });
-    }
-  };
-
-  const successCallback = (product) => {
+  const successCallback = () => {
     return res.redirect("/shop/cart");
   };
 
   const failureCallback = (error) => {
-    console.log("The error is: ", error.message);
+    console.log("The error is: ", error);
   };
 
-  user
-    .getCart()
-    .then(productsGenerator)
-    .then(productAdder)
-    .then(successCallback)
-    .catch(failureCallback);
+  User.addProductToCart(
+    user?._id,
+    product_id,
+    successCallback,
+    failureCallback
+  );
 };
 
 module.exports = addToCartController;

@@ -1,9 +1,11 @@
 const { getCartTotal } = require("../../../util/helper");
 
+const User = require("../../../Modals/User");
+
 const getCartController = (req, res) => {
   const { user } = req;
 
-  const successCallback = (cartData) => {
+  const successCallback = ({ cart: cartData }) => {
     return res.render("shop/cart", {
       docTitle: "Cart",
       docFooter: "Cart of your shop.",
@@ -14,15 +16,11 @@ const getCartController = (req, res) => {
     });
   };
 
-  user
-    .getCart()
-    .then((cart) => {
-      return cart.getProducts();
-    })
-    .then(successCallback)
-    .catch((error) => {
-      console.log("Error", error.message);
-    });
+  const failureCallback = (error) => {
+    console.log("The error is: ", error);
+  };
+
+  User.findById(user?._id, successCallback, failureCallback);
 };
 
 module.exports = getCartController;
