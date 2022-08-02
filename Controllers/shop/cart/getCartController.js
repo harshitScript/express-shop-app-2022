@@ -1,11 +1,13 @@
-const { getCartTotal } = require("../../../util/helper");
-
+const { ObjectId } = require("mongodb");
+const { getCartTotal, objectIdToStringId } = require("../../../util/helper");
 const User = require("../../../Modals/User");
+const Product = require("../../../Modals/Product");
 
 const getCartController = (req, res) => {
   const { user } = req;
+  let tempCart = [];
 
-  const successCallback = ({ cart: cartData }) => {
+  const successCallback = (cartData = []) => {
     return res.render("shop/cart", {
       docTitle: "Cart",
       docFooter: "Cart of your shop.",
@@ -20,7 +22,32 @@ const getCartController = (req, res) => {
     console.log("The error is: ", error);
   };
 
-  User.findById(user?._id, successCallback, failureCallback);
+  const cartMaker = (products) => {
+    const cartData = products.map((product) => {
+      return {
+        ...product,
+        price: +product?.price,
+        quantity:
+          tempCart?.find((item) => {
+            return (
+              objectIdToStringId(item?._id) === objectIdToStringId(product?._id)
+            );
+          })?.quantity || 0,
+      };
+    });
+
+    return successCallback(cartData);
+  };
+
+  const cartProductsGenerator = ({ cart: rawCartData }) => {
+    tempCart = [...rawCartData];
+
+    const productIdInCartArray = rawCartData.map(({ _id }) => _id);
+
+    return Product.findById(productIdInCartArray, cartMaker, failureCallback);
+  };
+
+  User.findById(user?._id, cartProductsGenerator, failureCallback);
 };
 
 module.exports = getCartController;

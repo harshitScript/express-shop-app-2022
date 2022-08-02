@@ -37,16 +37,18 @@
 
       <div class="card__actions">
         <a href="#" class="btn"
-          >₹ <%= singleProduct.price * singleProduct?.cartProduct?.quantity
-          %></a
+          >₹ <%= singleProduct.price %> x <%= singleProduct?.quantity %></a
         >
       </div>
       <div class="card__actions">
-        <form method="POST" action="/shop/cart/<%= singleProduct?.id %>/delete">
+        <form
+          method="POST"
+          action="/shop/cart/<%= singleProduct?._id %>/delete"
+        >
           <input
             type="hidden"
             name="product_id"
-            value="<%= singleProduct?.id %>"
+            value="<%= singleProduct?._id %>"
           />
           <button class="btn red">Delete</button>
         </form>

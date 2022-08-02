@@ -48,11 +48,20 @@ class Product {
     const productsCollection = _db.collection("products");
 
     try {
-      const matchedProductsArray = await productsCollection
-        .find({ _id: new ObjectId(_id) })
-        .next();
+      if (typeof _id === "string") {
+        const matchedProduct = await productsCollection
+          .find({ _id: new ObjectId(_id) })
+          .next();
 
-      successCallback(matchedProductsArray);
+        return successCallback(matchedProduct);
+      }
+      if (Array.isArray(_id)) {
+        const products = await productsCollection
+          .find({ _id: { $in: _id } })
+          .toArray();
+
+        successCallback(products);
+      }
     } catch (err) {
       failureCallback(err);
     }

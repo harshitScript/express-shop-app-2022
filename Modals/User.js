@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { objectIdToStringId, stringIdToObjectId } = require("../util/helper");
 const { getDb } = require("../util/database");
 
 class User {
@@ -37,7 +37,7 @@ class User {
 
     try {
       const matchedUser = await usersCollection.findOne({
-        _id: new ObjectId(_id),
+        _id: stringIdToObjectId(_id),
       });
 
       successCallback(matchedUser);
@@ -56,26 +56,39 @@ class User {
       let tempCart = [...cart];
 
       const productIndex = tempCart.findIndex(
-        (product) => product._id === productId
+        (product) =>
+          objectIdToStringId(product._id) === objectIdToStringId(productId)
       );
 
       const productAlreadyInCart = tempCart.find(
-        (product) => product._id === productId
+        (product) =>
+          objectIdToStringId(product._id) === objectIdToStringId(productId)
       );
 
       if (!!productAlreadyInCart) {
-        tempCart.at(productIndex).quantity =
-          tempCart.at(productIndex)?.quantity + 1;
+        tempCart = tempCart.map((product, index) => {
+          if (index === productIndex) {
+            return {
+              ...product,
+              quantity: product.quantity + 1,
+            };
+          } else {
+            return product;
+          }
+        });
 
         return userCollection.updateOne(
-          { _id: new ObjectId(userId) },
+          { _id: stringIdToObjectId(userId) },
           { $set: { cart: tempCart } }
         );
       } else {
-        tempCart = [...tempCart, { _id: new ObjectId(productId), quantity: 1 }];
+        tempCart = [
+          ...tempCart,
+          { _id: stringIdToObjectId(productId), quantity: 1 },
+        ];
 
         return userCollection.updateOne(
-          { _id: new ObjectId(userId) },
+          { _id: stringIdToObjectId(userId) },
           { $set: { cart: tempCart } }
         );
       }
@@ -84,7 +97,7 @@ class User {
     const _db = getDb();
     const userCollection = _db.collection("users");
     userCollection
-      .findOne({ _id: new ObjectId(userId) })
+      .findOne({ _id: stringIdToObjectId(userId) })
       .then(quantityAddOrProductAdder)
       .then(successCallback)
       .catch(failureCallback);
@@ -100,17 +113,26 @@ class User {
       let tempCart = [...cart];
 
       const productIndex = tempCart.findIndex(
-        (product) => product._id === productId
+        (product) =>
+          objectIdToStringId(product._id) === objectIdToStringId(productId)
       );
 
-      if (!!productIndex) {
-        tempCart.at(productIndex).quantity =
-          tempCart.at(productIndex)?.quantity - 1;
+      if (productIndex >= 0) {
+        tempCart = tempCart.map((product, index) => {
+          if (index === productIndex) {
+            return {
+              ...product,
+              quantity: product.quantity - 1,
+            };
+          } else {
+            return product;
+          }
+        });
 
         tempCart = tempCart.filter((product) => product.quantity > 0);
 
         return userCollection.updateOne(
-          { _id: new ObjectId(userId) },
+          { _id: stringIdToObjectId(userId) },
           { $set: { cart: tempCart } }
         );
       }
@@ -118,8 +140,8 @@ class User {
 
     const _db = getDb();
     const userCollection = _db.collection("users");
-    cartCollection
-      .findOne({ _id: new ObjectId(userId) })
+    userCollection
+      .findOne({ _id: stringIdToObjectId(userId) })
       .then(quantitySubtractOrProductRemover)
       .then(successCallback)
       .catch(failureCallback);

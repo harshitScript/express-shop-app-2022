@@ -1,20 +1,23 @@
+const User = require("../../../Modals/User");
+
 const deleteCartProductController = (req, res) => {
   const { product_id } = req.body;
   const { user } = req;
 
-  user
-    .getCart()
-    .then((cart) => {
-      return cart.getProducts({ where: { id: product_id } });
-    })
-    .then(([product]) => {
-      //! product.destroy() will delete the product from the product table.
+  const successCallback = () => {
+    return res.redirect("/shop/cart");
+  };
 
-      return product.cartProduct.destroy(); //* This will delete the product-relation from the cartProduct table.
-    })
-    .then((deletedProduct) => {
-      return res.redirect("/shop/cart");
-    });
+  const failureCallback = (error) => {
+    console.log("The error is: ", error);
+  };
+
+  User.removeProductFromCart(
+    user?._id,
+    product_id,
+    successCallback,
+    failureCallback
+  );
 };
 
 module.exports = deleteCartProductController;
