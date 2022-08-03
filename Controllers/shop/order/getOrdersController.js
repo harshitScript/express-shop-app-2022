@@ -1,3 +1,5 @@
+const Order = require("../../../Modals/Order");
+
 const getOrdersController = (req, res, next) => {
   const { user } = req;
 
@@ -15,7 +17,7 @@ const getOrdersController = (req, res, next) => {
     console.log("Error:", error.message);
   };
 
-  user.getOrders().then(successCallback).catch(failureCallback);
+  Order.fetchUserOrders(user?._id, successCallback, failureCallback);
 };
 
 module.exports = getOrdersController;

@@ -3,6 +3,7 @@ const express = require("express");
 
 //? Core modules
 const path = require("path");
+const EventEmitter = require("events");
 
 //? Local imports
 const { connectMongo } = require("./util/database");
@@ -38,12 +39,19 @@ app.use("/shop", shopRoutes);
 app.use(homeRoute);
 app.use(errorRoute);
 
+//? "events" core module check
+const serverStarted = new EventEmitter();
+
+serverStarted.on("server_on", () => {
+  console.log("Harshit's Express Server is running on port 4000");
+});
+
 const databaseConnectionSuccessCallback = () => {
   app.listen(4000, (err) => {
     if (err) {
       console.log(err);
     } else {
-      console.log("Server is running on port 4000");
+      serverStarted.emit("server_on");
     }
   });
 };

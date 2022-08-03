@@ -3,8 +3,8 @@ const bodyParser = require("body-parser");
 
 //? Product imports
 const getProductListController = require("../controllers/shop/products/getProductListController");
-const getOrdersController = require("../controllers/shop/products/getOrdersController");
-const postOrdersController = require("../controllers/shop/products/postOrdersController");
+const getOrdersController = require("../controllers/shop/order/getOrdersController");
+const postOrdersController = require("../controllers/shop/order/postOrdersController");
 const getProductDetailsController = require("../controllers/shop/products/getProductDetailsController");
 //? Cart imports
 const getCartController = require("../controllers/shop/cart/getCartController");

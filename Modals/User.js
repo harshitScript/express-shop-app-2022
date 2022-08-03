@@ -6,7 +6,8 @@ class User {
     this.name = name;
     this.email = email;
     this.cart = [];
-    this.orders = [];
+    this.orderIds = [];
+    this.ordersPlaced = 0;
   }
 
   save(successCallback, failureCallback) {
@@ -144,6 +145,38 @@ class User {
       .findOne({ _id: stringIdToObjectId(userId) })
       .then(quantitySubtractOrProductRemover)
       .then(successCallback)
+      .catch(failureCallback);
+  }
+
+  static clearCart(userId, successCallback, failureCallback) {
+    const _db = getDb();
+    const userCollection = _db.collection("users");
+
+    userCollection
+      .updateOne({ _id: stringIdToObjectId(userId) }, { $set: { cart: [] } })
+      .then(successCallback)
+      .catch(failureCallback);
+  }
+
+  static attachOrderId(userId, orderId, successCallback, failureCallback) {
+    const _db = getDb();
+    const userCollection = _db.collection("users");
+    userCollection
+      .findOne({ _id: stringIdToObjectId(userId) })
+      .then((user) => {
+        userCollection
+          .updateOne(
+            { _id: stringIdToObjectId(userId) },
+            {
+              $set: {
+                orderIds: [...user?.orderIds, stringIdToObjectId(orderId)],
+                ordersPlaced: user?.ordersPlaced + 1,
+              },
+            }
+          )
+          .then(successCallback)
+          .catch(failureCallback);
+      })
       .catch(failureCallback);
   }
 }

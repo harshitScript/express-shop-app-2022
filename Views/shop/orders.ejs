@@ -5,8 +5,8 @@
   <div class="flex-box">
     <% ordersData.forEach(function(order){ %>
     <article class="card cart-product-item">
-      <b> Order #<%= order?.id %> </b>
-      <a href="/shop/order-overview/<%= order?.id %>" class="btn">Overview</a>
+      <b> Order #<%= order?._id %> </b>
+      <a href="/shop/order-overview/<%= order?._id %>" class="btn">Overview</a>
     </article>
     <% }); %>
   </div>
