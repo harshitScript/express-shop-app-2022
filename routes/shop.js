@@ -14,7 +14,7 @@ const getOrderOverviewController = require("../controllers/shop/order/getOrderOv
 
 const shopRoutes = express.Router();
 
-shopRoutes.post(
+/* shopRoutes.post(
   "/cart/:id/delete",
   bodyParser.urlencoded({ extended: false }),
   deleteCartProductController
@@ -34,7 +34,7 @@ shopRoutes.post("/orders", postOrdersController);
 
 shopRoutes.get("/order-overview/:orderId", getOrderOverviewController);
 
-shopRoutes.get("/product-details/:id", getProductDetailsController);
+shopRoutes.get("/product-details/:id", getProductDetailsController); */
 
 shopRoutes.get("/", getProductListController);
 

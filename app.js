@@ -6,12 +6,12 @@ const path = require("path");
 const EventEmitter = require("events");
 
 //? Local imports
-const { connectMongo } = require("./util/database");
-const { adminRoutes } = require("./routes/admin");
-const shopRoutes = require("./routes/shop");
+const { connectMongoose } = require("./util/database");
 const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
-const User = require("./Modals/User");
+const { adminRoutes } = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
+/*const User = require("./Modals/User"); */
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   const failureCallback = (error) => {
     console.log("The error is: ", error);
   };
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
     },
     failureCallback
   );
-});
+}); */
 
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
@@ -60,7 +60,7 @@ const databaseConnectionFailureCallback = (error) => {
   console.log("The error is: ", error);
 };
 
-connectMongo(
+connectMongoose(
   databaseConnectionSuccessCallback,
   databaseConnectionFailureCallback
 );

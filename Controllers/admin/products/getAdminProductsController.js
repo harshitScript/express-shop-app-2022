@@ -16,7 +16,9 @@ const getAdminProductsController = (req, res) => {
     return res.redirect("/");
   };
 
-  Product.fetchAll(adminProductsListCallback, adminProductsListFailureCallback);
+  Product.find()
+    .then(adminProductsListCallback)
+    .catch(adminProductsListFailureCallback);
 };
 
 module.exports = getAdminProductsController;

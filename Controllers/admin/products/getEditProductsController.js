@@ -12,11 +12,12 @@ const getEditProductsController = (req, res) => {
       noNavigation: false,
     });
   };
+  
   const failureCallback = (error) => {
     console.log(error.message);
   };
 
-  Product.findById(id, successCallback, failureCallback);
+  Product.findById(id).then(successCallback).catch(failureCallback);
 };
 
 module.exports = getEditProductsController;

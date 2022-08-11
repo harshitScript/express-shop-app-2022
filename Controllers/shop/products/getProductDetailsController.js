@@ -18,7 +18,8 @@ const getProductDetailsController = (req, res) => {
     return res.redirect("/");
   };
 
-  Product.findById(productId, successCallback, failureCallback);
+  //* These methods converts string id into object id automatically.
+  Product.findById(productId).then(successCallback).catch(failureCallback);
 
   //! It can also be used
   /* Product.findAll({

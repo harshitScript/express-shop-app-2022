@@ -11,7 +11,7 @@ const deleteProductController = (req, res) => {
     console.log(error.message);
   };
 
-  Product.deleteById(id, successCallback, failureCallback);
+  Product.findByIdAndDelete(id).then(successCallback).catch(failureCallback);
 };
 
 module.exports = deleteProductController;

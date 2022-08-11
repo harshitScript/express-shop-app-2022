@@ -14,7 +14,7 @@ const postProductsController = (req, res) => {
 
   const product = new Product({ title, price, description, imageURL });
 
-  product.save(successCallback, failureCallback);
+  product.save().then(successCallback).catch(failureCallback);
 };
 
 module.exports = { middleWare: postProductsController };

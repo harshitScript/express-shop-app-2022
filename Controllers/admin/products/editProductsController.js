@@ -5,7 +5,6 @@ const editProductsController = (req, res) => {
   const { title, price, imageUrl, description } = req.body;
 
   const updateProduct = {
-    _id: id,
     title,
     price,
     imageUrl,
@@ -20,7 +19,9 @@ const editProductsController = (req, res) => {
     return res.redirect("/admin/products");
   };
 
-  Product.update(updateProduct, successCallback, failureCallback);
+  Product.findByIdAndUpdate(id, updateProduct)
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = editProductsController;

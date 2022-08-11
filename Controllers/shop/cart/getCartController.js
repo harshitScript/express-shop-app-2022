@@ -1,7 +1,6 @@
-const { ObjectId } = require("mongodb");
 const { getCartTotal, objectIdToStringId } = require("../../../util/helper");
 const User = require("../../../Modals/User");
-const Product = require("../../../Modals/Product");
+const Product = require("../../../Modals/product");
 
 const getCartController = (req, res) => {
   const { user } = req;
