@@ -12,11 +12,15 @@ const getProductListController = (req, res) => {
   };
 
   const productsFailureCallback = (error) => {
+    console.log("The error is : ", error);
     return res.redirect("/");
   };
 
   //? This will fetch all the products from the Product modal.
-  Product.find().then(productsCallback).catch(productsFailureCallback);
+  Product.find()
+    /* .select(`title imageURL price _id `) */
+    .then(productsCallback)
+    .catch(productsFailureCallback);
 
   /* res.writeHead(302, "Redirection", { location: "/message" });
         return res.end(); */

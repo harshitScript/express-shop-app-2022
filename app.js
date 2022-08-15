@@ -11,28 +11,30 @@ const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
 const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-/*const User = require("./Modals/User"); */
+const User = require("./Modals/User");
 
 const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+//* => Request will fall down from here.
+
 app.use(express.static(path.join(__dirname, "public")));
-/* app.use((req, res, next) => {
+app.use((req, res, next) => {
   const failureCallback = (error) => {
     console.log("The error is: ", error);
   };
 
-  User.findById(
-    "62e80678bffeb1c4147953dc",
-    (user) => {
-      req.user = user;
-      next();
-    },
-    failureCallback
-  );
-}); */
+  const successCallback = (user) => {
+    req.user = user;
+    next();
+  };
+
+  User.findById("62f8f6fc17b42aa3a3fd998e")
+    .then(successCallback)
+    .catch(failureCallback);
+});
 
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
@@ -46,14 +48,26 @@ serverStarted.on("server_on", () => {
   console.log("Harshit's Express Server is running on port 4000");
 });
 
-const databaseConnectionSuccessCallback = () => {
-  app.listen(4000, (err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      serverStarted.emit("server_on");
-    }
-  });
+const databaseConnectionSuccessCallback = async () => {
+  const user = await User.findOne();
+
+  if (!user) {
+    new User({
+      email: "admin@gmail.com",
+      name: "admin",
+      cart: [],
+      orderIds: [],
+      ordersPlaced: 0,
+    }).save();
+  } else {
+    app.listen(4000, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        serverStarted.emit("server_on");
+      }
+    });
+  }
 };
 
 const databaseConnectionFailureCallback = (error) => {

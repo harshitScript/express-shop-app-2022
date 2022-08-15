@@ -8,11 +8,11 @@
       <div class="card-product-img-title">
         <img
           class="cart_product_image"
-          src="<%= singleProduct.imageURL %>"
+          src="<%= singleProduct?.product_id?.imageURL %>"
           alt="image"
         />
 
-        <h1 class="product__title"><%= singleProduct.title %></h1>
+        <h1 class="product__title"><%= singleProduct?.product_id?.title %></h1>
       </div>
 
       <div class="flex-row-centered gap-half-rem">
@@ -24,7 +24,7 @@
           />
           <button type="submit" class="btn rounded">-</button>
         </form> -->
-        <p><%= singleProduct?.cartProduct?.quantity %></p>
+        <p><%= singleProduct?.quantity %></p>
         <!-- <form method="POST" action="/shop/cart/<%= singleProduct.id %>">
           <input
             type="hidden"
@@ -37,7 +37,8 @@
 
       <div class="card__actions">
         <a href="#" class="btn"
-          >₹ <%= singleProduct.price %> x <%= singleProduct?.quantity %></a
+          >₹ <%= singleProduct?.product_id?.price %> x <%=
+          singleProduct?.quantity %></a
         >
       </div>
       <div class="card__actions">
@@ -48,7 +49,7 @@
           <input
             type="hidden"
             name="product_id"
-            value="<%= singleProduct?._id %>"
+            value="<%= singleProduct?.product_id?._id %>"
           />
           <button class="btn red">Delete</button>
         </form>

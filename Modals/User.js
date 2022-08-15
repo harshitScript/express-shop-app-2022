@@ -1,184 +1,102 @@
-const { objectIdToStringId, stringIdToObjectId } = require("../util/helper");
-const { getDb } = require("../util/database");
+const mongoose = require("mongoose");
+const { cartDataMaker, objectIdToStringId } = require("../util/helper");
 
-class User {
-  constructor(name, email) {
-    this.name = name;
-    this.email = email;
-    this.cart = [];
-    this.orderIds = [];
-    this.ordersPlaced = 0;
-  }
+const Schema = mongoose.Schema;
 
-  save(successCallback, failureCallback) {
-    const _db = getDb();
-    const usersCollection = _db.collection("users");
-    usersCollection
-      .insertOne(this)
-      .then(successCallback)
-      .catch(failureCallback);
-  }
+const userSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  cart: {
+    type: [
+      {
+        product_id: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    required: true,
+  },
+  orderIds: {
+    type: [{ type: Schema.Types.ObjectId }],
+    required: true,
+  },
+  ordersPlaced: {
+    type: Number,
+    required: true,
+  },
+});
 
-  static fetchAll(successCallback, failureCallback) {
-    const _db = getDb();
+//? non static method(called on instance) -------------------------------------------
+userSchema.methods.addToCart = function (product_id = "") {
+  //* Here the this refers to the user object on which the method is called.
 
-    const usersCollection = _db.collection("users");
+  const productPresentInCartIndex = this.cart.findIndex(
+    (rawObj) => objectIdToStringId(rawObj.product_id) === product_id
+  );
 
-    usersCollection
-      .find({})
-      .toArray()
-      .then(successCallback)
-      .catch(failureCallback);
-  }
+  let updatedCart = [];
 
-  static async findById(_id, successCallback, failureCallback) {
-    const _db = getDb();
-
-    const usersCollection = _db.collection("users");
-
-    try {
-      const matchedUser = await usersCollection.findOne({
-        _id: stringIdToObjectId(_id),
-      });
-
-      successCallback(matchedUser);
-    } catch (err) {
-      failureCallback(err);
-    }
-  }
-
-  static addProductToCart(
-    userId = "",
-    productId = "",
-    successCallback = () => {},
-    failureCallback = () => {}
-  ) {
-    const quantityAddOrProductAdder = ({ cart }) => {
-      let tempCart = [...cart];
-
-      const productIndex = tempCart.findIndex(
-        (product) =>
-          objectIdToStringId(product._id) === objectIdToStringId(productId)
-      );
-
-      const productAlreadyInCart = tempCart.find(
-        (product) =>
-          objectIdToStringId(product._id) === objectIdToStringId(productId)
-      );
-
-      if (!!productAlreadyInCart) {
-        tempCart = tempCart.map((product, index) => {
-          if (index === productIndex) {
-            return {
-              ...product,
-              quantity: product.quantity + 1,
-            };
-          } else {
-            return product;
-          }
-        });
-
-        return userCollection.updateOne(
-          { _id: stringIdToObjectId(userId) },
-          { $set: { cart: tempCart } }
-        );
-      } else {
-        tempCart = [
-          ...tempCart,
-          { _id: stringIdToObjectId(productId), quantity: 1 },
-        ];
-
-        return userCollection.updateOne(
-          { _id: stringIdToObjectId(userId) },
-          { $set: { cart: tempCart } }
-        );
+  if (productPresentInCartIndex >= 0) {
+    updatedCart = this.cart.map((rawObj) => {
+      if (rawObj?.product_id == product_id) {
+        return {
+          ...rawObj,
+          quantity: rawObj?.quantity + 1,
+        };
       }
-    };
-
-    const _db = getDb();
-    const userCollection = _db.collection("users");
-    userCollection
-      .findOne({ _id: stringIdToObjectId(userId) })
-      .then(quantityAddOrProductAdder)
-      .then(successCallback)
-      .catch(failureCallback);
+      return rawObj;
+    });
+  } else {
+    updatedCart = [...this.cart, { product_id: product_id, quantity: 1 }];
   }
 
-  static removeProductFromCart(
-    userId = "",
-    productId = "",
-    successCallback = () => {},
-    failureCallback = () => {}
-  ) {
-    const quantitySubtractOrProductRemover = ({ cart }) => {
-      let tempCart = [...cart];
+  this.cart = updatedCart;
 
-      const productIndex = tempCart.findIndex(
-        (product) =>
-          objectIdToStringId(product._id) === objectIdToStringId(productId)
-      );
+  return this.save();
+};
 
-      if (productIndex >= 0) {
-        tempCart = tempCart.map((product, index) => {
-          if (index === productIndex) {
-            return {
-              ...product,
-              quantity: product.quantity - 1,
-            };
-          } else {
-            return product;
-          }
-        });
+userSchema.methods.removeFromCart = function (product_id = "") {
+  //* Here the this refers to the user object on which the method is called.
 
-        tempCart = tempCart.filter((product) => product.quantity > 0);
+  const productPresentInCartIndex = this.cart.findIndex(
+    (rawObj) => objectIdToStringId(rawObj.product_id) === product_id
+  );
 
-        return userCollection.updateOne(
-          { _id: stringIdToObjectId(userId) },
-          { $set: { cart: tempCart } }
-        );
+  let updatedCart = [];
+
+  if (productPresentInCartIndex >= 0) {
+    updatedCart = this.cart.map((rawObj) => {
+      if (rawObj?.product_id == product_id) {
+        return {
+          ...rawObj,
+          quantity: rawObj?.quantity - 1,
+        };
       }
-    };
+      return rawObj;
+    });
 
-    const _db = getDb();
-    const userCollection = _db.collection("users");
-    userCollection
-      .findOne({ _id: stringIdToObjectId(userId) })
-      .then(quantitySubtractOrProductRemover)
-      .then(successCallback)
-      .catch(failureCallback);
+    updatedCart = updatedCart.filter((rawObj) => rawObj?.quantity);
   }
 
-  static clearCart(userId, successCallback, failureCallback) {
-    const _db = getDb();
-    const userCollection = _db.collection("users");
+  this.cart = updatedCart;
 
-    userCollection
-      .updateOne({ _id: stringIdToObjectId(userId) }, { $set: { cart: [] } })
-      .then(successCallback)
-      .catch(failureCallback);
-  }
+  return this.save();
+};
 
-  static attachOrderId(userId, orderId, successCallback, failureCallback) {
-    const _db = getDb();
-    const userCollection = _db.collection("users");
-    userCollection
-      .findOne({ _id: stringIdToObjectId(userId) })
-      .then((user) => {
-        userCollection
-          .updateOne(
-            { _id: stringIdToObjectId(userId) },
-            {
-              $set: {
-                orderIds: [...user?.orderIds, stringIdToObjectId(orderId)],
-                ordersPlaced: user?.ordersPlaced + 1,
-              },
-            }
-          )
-          .then(successCallback)
-          .catch(failureCallback);
-      })
-      .catch(failureCallback);
-  }
-}
+userSchema.methods.getCart = function (successCallback, failureCallback) {
+  this.populate("cart.product_id").then(successCallback).catch(failureCallback);
+};
 
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

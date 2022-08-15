@@ -1,12 +1,10 @@
-const { getCartTotal, objectIdToStringId } = require("../../../util/helper");
-const User = require("../../../Modals/User");
-const Product = require("../../../Modals/product");
+const { getCartTotal } = require("../../../util/helper");
 
 const getCartController = (req, res) => {
   const { user } = req;
-  let tempCart = [];
 
-  const successCallback = (cartData = []) => {
+  const successCallback = (userWithPopulatedCart) => {
+    const cartData = userWithPopulatedCart?.cart;
     return res.render("shop/cart", {
       docTitle: "Cart",
       docFooter: "Cart of your shop.",
@@ -21,32 +19,7 @@ const getCartController = (req, res) => {
     console.log("The error is: ", error);
   };
 
-  const cartMaker = (products) => {
-    const cartData = products.map((product) => {
-      return {
-        ...product,
-        price: +product?.price,
-        quantity:
-          tempCart?.find((item) => {
-            return (
-              objectIdToStringId(item?._id) === objectIdToStringId(product?._id)
-            );
-          })?.quantity || 0,
-      };
-    });
-
-    return successCallback(cartData);
-  };
-
-  const cartProductsGenerator = ({ cart: rawCartData }) => {
-    tempCart = [...rawCartData];
-
-    const productIdInCartArray = rawCartData.map(({ _id }) => _id);
-
-    return Product.findById(productIdInCartArray, cartMaker, failureCallback);
-  };
-
-  User.findById(user?._id, cartProductsGenerator, failureCallback);
+  user.getCart(successCallback, failureCallback);
 };
 
 module.exports = getCartController;
