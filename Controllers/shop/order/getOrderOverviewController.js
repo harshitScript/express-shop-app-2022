@@ -1,8 +1,7 @@
-const Order = require("../../../Modals/Order");
-const Product = require("../../../Modals/product");
 const { objectIdToStringId } = require("../../../util/helper");
 
 const getOrderOverviewController = (req, res, next) => {
+  const { user } = req;
   const { orderId } = req.params;
 
   const successCallback = (orderProducts) => {
@@ -16,43 +15,31 @@ const getOrderOverviewController = (req, res, next) => {
     });
   };
 
-  const orderProductsMaker = (orderProductsIntermediate) => {
-    const finalOrderProducts = orderProductsIntermediate.map((opInter) => {
-      const matchedTempOrderProduct = tempOrderProducts.find(
-        (tempOp) =>
-          objectIdToStringId(tempOp?._id) === objectIdToStringId(opInter?._id)
-      );
-
-      return {
-        ...opInter,
-        quantity: matchedTempOrderProduct?.quantity,
-      };
-    });
-
-    successCallback(finalOrderProducts);
-  };
-
-  const orderProductsRetriever = ({ products: orderProducts }) => {
-    tempOrderProducts = [...orderProducts];
-
-    const tempOrderProductsIdArray = tempOrderProducts.map(
-      (rawProduct) => rawProduct._id
-    );
-
-    Product.findById(
-      tempOrderProductsIdArray,
-      orderProductsMaker,
-      failureCallback
-    );
-  };
-
   const failureCallback = (error) => {
-    console.log("The Error is : ", error);
+    console.log("The error is : ", error);
   };
 
-  let tempOrderProducts = [];
+  const userWithPopulatedOrderIdsHandler = (userWithPopulatedOrderIds = {}) => {
+    return userWithPopulatedOrderIds.populate(
+      "orderIds.products.product_id",
+      "-description -imageURL"
+    );
+  };
 
-  Order.findById(orderId, orderProductsRetriever, failureCallback);
+  const userWithPopulatedOrderProductsHandler = (
+    userWithPopulatedOrderProducts = {}
+  ) => {
+    return userWithPopulatedOrderProducts?.orderIds.find(
+      ({ _id }) => objectIdToStringId(_id) === objectIdToStringId(orderId)
+    ).products;
+  };
+
+  user
+    .populate("orderIds")
+    .then(userWithPopulatedOrderIdsHandler)
+    .then(userWithPopulatedOrderProductsHandler)
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = getOrderOverviewController;

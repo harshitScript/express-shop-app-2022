@@ -6,10 +6,10 @@
     <% if(orderProducts) { %> <% orderProducts.forEach(function (order_product){
     %>
     <div class="card cart-product-item flex-box">
-      <h2><%= order_product?.title %></h2>
+      <h2><%= order_product?.product_id?.title %></h2>
       <p><%= order_product?.quantity %></p>
       <button class="btn">
-        ₹ <%= order_product?.price*order_product?.quantity %>
+        ₹ <%= order_product?.product_id?.price*order_product?.quantity %>
       </button>
     </div>
     <% }) %>

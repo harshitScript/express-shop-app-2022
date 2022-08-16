@@ -1,4 +1,3 @@
-const User = require("../../../Modals/User");
 const Order = require("../../../Modals/Order");
 
 const postOrdersController = (req, res, next) => {
@@ -12,26 +11,22 @@ const postOrdersController = (req, res, next) => {
     return res.redirect("/shop/orders");
   };
 
-  const clearCartAfterSavingOrder = () => {
-    User.clearCart(user?._id, successCallback, failureCallback);
+  const clearCartHandler = () => {
+    return user.clearCart();
   };
 
-  const updateCart = ({ insertedId }) => {
-    User.attachOrderId(
-      user?._id,
-      insertedId,
-      clearCartAfterSavingOrder,
-      failureCallback
-    );
+  const orderIdsUpdateHandler = (newOrderResponse) => {
+    return user.orderIdsUpdater(newOrderResponse);
   };
 
-  const saveOrder = (user_doc) => {
-    const order = new Order(user_doc?._id, user_doc.cart);
+  const order = new Order({ userId: user?._id, products: user?.cart });
 
-    order.save(updateCart, failureCallback);
-  };
-
-  User.findById(user?._id, saveOrder, failureCallback);
+  order
+    .save()
+    .then(orderIdsUpdateHandler)
+    .then(clearCartHandler)
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = postOrdersController;

@@ -1,9 +1,9 @@
-const Order = require("../../../Modals/Order");
+
 
 const getOrdersController = (req, res, next) => {
   const { user } = req;
 
-  const successCallback = (ordersData) => {
+  const successCallback = ({ orderIds: ordersData }) => {
     return res.render("shop/orders", {
       docTitle: "Orders",
       docFooter: "Your orders history.",
@@ -17,7 +17,7 @@ const getOrdersController = (req, res, next) => {
     console.log("Error:", error.message);
   };
 
-  Order.fetchUserOrders(user?._id, successCallback, failureCallback);
+  user.populate("orderIds").then(successCallback).catch(failureCallback);
 };
 
 module.exports = getOrdersController;

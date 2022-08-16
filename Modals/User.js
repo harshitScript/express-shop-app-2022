@@ -29,7 +29,7 @@ const userSchema = new Schema({
     required: true,
   },
   orderIds: {
-    type: [{ type: Schema.Types.ObjectId }],
+    type: [{ type: Schema.Types.ObjectId, ref: "Order" }],
     required: true,
   },
   ordersPlaced: {
@@ -97,6 +97,17 @@ userSchema.methods.removeFromCart = function (product_id = "") {
 
 userSchema.methods.getCart = function (successCallback, failureCallback) {
   this.populate("cart.product_id").then(successCallback).catch(failureCallback);
+};
+
+userSchema.methods.clearCart = function () {
+  this.cart = [];
+  return this.save();
+};
+
+userSchema.methods.orderIdsUpdater = function (newOrderResponse = {}) {
+  this.orderIds = [...this.orderIds, newOrderResponse?._id];
+  this.ordersPlaced = this.ordersPlaced + 1;
+  return this.save();
 };
 
 module.exports = mongoose.model("User", userSchema);
