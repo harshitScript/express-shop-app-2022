@@ -3,8 +3,7 @@ const { getCartTotal } = require("../../../util/helper");
 const getCartController = (req, res) => {
   const { user } = req;
 
-  const successCallback = (userWithPopulatedCart) => {
-    const cartData = userWithPopulatedCart?.cart;
+  const successCallback = (cartData) => {
     return res.render("shop/cart", {
       docTitle: "Cart",
       docFooter: "Cart of your shop.",

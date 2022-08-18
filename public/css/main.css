@@ -372,3 +372,16 @@ button:hover,
   border-bottom: 1px solid grey;
   margin-bottom: 1rem;
 }
+
+.login-form-card {
+  width: 40%;
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
+}

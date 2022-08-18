@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { cartDataMaker, objectIdToStringId } = require("../util/helper");
+const { objectIdToStringId } = require("../util/helper");
 
 const Schema = mongoose.Schema;
 
@@ -9,6 +9,10 @@ const userSchema = new Schema({
     required: true,
   },
   name: {
+    type: String,
+    required: true,
+  },
+  password: {
     type: String,
     required: true,
   },
@@ -96,7 +100,17 @@ userSchema.methods.removeFromCart = function (product_id = "") {
 };
 
 userSchema.methods.getCart = function (successCallback, failureCallback) {
-  this.populate("cart.product_id").then(successCallback).catch(failureCallback);
+  const cartDataMaker = (userWithPopulatedProductId) => {
+    return userWithPopulatedProductId?.cart?.map((rawObj) => ({
+      ...rawObj?.product_id?._doc,
+      quantity: rawObj?.quantity,
+    }));
+  };
+
+  this.populate("cart.product_id")
+    .then(cartDataMaker)
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 userSchema.methods.clearCart = function () {

@@ -12,6 +12,7 @@ const homeRoute = require("./routes/home");
 const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const User = require("./Modals/User");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use((req, res, next) => {
 
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
+app.use("/auth", authRoutes);
 app.use(homeRoute);
 app.use(errorRoute);
 
