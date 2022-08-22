@@ -1,5 +1,6 @@
 //? Third party modules
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 //? Core modules
 const path = require("path");
@@ -13,6 +14,7 @@ const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const User = require("./Modals/User");
 const authRoutes = require("./routes/auth");
+const authenticationChecker = require("./Controllers/auth/authenticationChecker");
 
 const app = express();
 
@@ -22,21 +24,7 @@ app.set("views", path.join(__dirname, "views"));
 //* => Request will fall down from here.
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use((req, res, next) => {
-  const failureCallback = (error) => {
-    console.log("The error is: ", error);
-  };
-
-  const successCallback = (user) => {
-    req.user = user;
-    next();
-  };
-
-  User.findById("62f8f6fc17b42aa3a3fd998e")
-    .then(successCallback)
-    .catch(failureCallback);
-});
-
+app.use(cookieParser(), authenticationChecker);
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
 app.use("/auth", authRoutes);

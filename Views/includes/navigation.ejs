@@ -39,27 +39,30 @@
           >Product-Details</a
         >
       </li>
-      <!-- <li class="main-header__item">
-        <a
-          href="/admin/add-product"
-          class="<%= path === '/admin/add-product' ? 'active' : '' %>"
-          >Add Product</a
-        >
-      </li>
-      <li class="main-header__item">
-        <a
-          href="/admin/edit-product"
-          class="<%= path === '/admin/edit-product' ? 'active' : '' %>"
-          >Edit Product</a
-        >
-      </li>
-      <li class="main-header__item">
-        <a
-          href="/admin/products"
-          class="<%= path === '/admin/products' ? 'active' : '' %>"
-          >Admin Products</a
-        >
-      </li> -->
+      <% if(isAuthenticated){ %>
+        <li class="main-header__item">
+          <a
+            href="/admin/add-product"
+            class="<%= path === '/admin/add-product' ? 'active' : '' %>"
+            >Add Product</a
+          >
+        </li>
+        <li class="main-header__item">
+          <a
+            href="/admin/edit-product"
+            class="<%= path === '/admin/edit-product' ? 'active' : '' %>"
+            >Edit Product</a
+          >
+        </li>
+        <li class="main-header__item">
+          <a
+            href="/admin/products"
+            class="<%= path === '/admin/products' ? 'active' : '' %>"
+            >Admin Products</a
+          >
+        </li>
+        <% } %>
+      
       
     </ul>
     <% } %>

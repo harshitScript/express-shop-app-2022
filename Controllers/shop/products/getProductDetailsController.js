@@ -10,6 +10,7 @@ const getProductDetailsController = (req, res) => {
       path: "/shop/product-details",
       singleProduct: product,
       noNavigation: false,
+      isAuthenticated: req.isAuthenticated,
     });
   };
 

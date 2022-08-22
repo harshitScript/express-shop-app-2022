@@ -4,6 +4,7 @@ const errorController = (req, res) => {
     docFooter: "Are you lost baby girl.",
     path: "none",
     noNavigation: false,
+    isAuthenticated: req.isAuthenticated,
   });
 };
 

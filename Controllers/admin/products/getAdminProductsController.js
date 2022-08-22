@@ -8,6 +8,7 @@ const getAdminProductsController = (req, res) => {
       path: "/admin/products",
       products,
       noNavigation: false,
+      isAuthenticated: req.isAuthenticated,
     });
   };
 

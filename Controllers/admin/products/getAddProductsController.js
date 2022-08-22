@@ -4,6 +4,7 @@ const getAddProductsController = (req, res, next) => {
     docFooter: "Add Product to your shop.",
     path: "/admin/add-product",
     noNavigation: false,
+    isAuthenticated: req.isAuthenticated,
   });
 };
 

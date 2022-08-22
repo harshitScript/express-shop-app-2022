@@ -1,5 +1,3 @@
-
-
 const getOrdersController = (req, res, next) => {
   const { user } = req;
 
@@ -10,6 +8,7 @@ const getOrdersController = (req, res, next) => {
       path: "/shop/orders",
       ordersData,
       noNavigation: false,
+      isAuthenticated: req.isAuthenticated,
     });
   };
 

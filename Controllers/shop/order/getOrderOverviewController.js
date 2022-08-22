@@ -12,6 +12,7 @@ const getOrderOverviewController = (req, res, next) => {
       orderProducts,
       orderId,
       noNavigation: false,
+      isAuthenticated: req.isAuthenticated,
     });
   };
 
