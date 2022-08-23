@@ -9,7 +9,7 @@ const authenticationChecker = (req, res, next) => {
 
   const successCallback = (user) => {
     req.user = user;
-    req.isAuthenticated = true;
+    req.isAuthenticated = !!userId;
     next();
   };
 

@@ -9,7 +9,12 @@ const postLoginController = (req, res) => {
     password,
   })
     .then((user) => {
-      res.cookie("userId", objectIdToStringId(user?._id));
+      res.cookie("userId", objectIdToStringId(user?._id), {
+        expires: new Date(Date.now() + 86400000),
+        /* maxAge: 86400000,
+        secure : true,
+        httpOnly : true, */
+      });
       return res.redirect("/shop/");
     })
     .catch(() => {
