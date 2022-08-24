@@ -1,6 +1,5 @@
 //? Third party modules
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 
 //? Core modules
@@ -8,7 +7,7 @@ const path = require("path");
 const EventEmitter = require("events");
 
 //? Local imports
-const { connectMongoose } = require("./util/database");
+const { connectMongoose, sessionStoreCreator } = require("./util/database");
 const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
 const { adminRoutes } = require("./routes/admin");
@@ -16,6 +15,7 @@ const shopRoutes = require("./routes/shop");
 const User = require("./Modals/User");
 const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
+const session = require("express-session");
 
 const app = express();
 
@@ -31,12 +31,13 @@ app.use(
       "some very long string to hash the session id we'll set to the client side.",
     resave: false,
     saveUninitialized: false,
-    /* cookie: {
-      options for configuring the sessions cookie 
-    }, */
+    store: sessionStoreCreator(session),
+    cookie: {
+      expiry: new Date().setDate(new Date().getDate + 1),
+    },
   })
 );
-app.use(cookieParser(), authenticationChecker);
+app.use(authenticationChecker);
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
 app.use("/auth", authRoutes);

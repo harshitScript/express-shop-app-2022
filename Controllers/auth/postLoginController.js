@@ -1,5 +1,4 @@
 const User = require("../../Modals/User");
-const { objectIdToStringId } = require("../../util/helper");
 
 const postLoginController = (req, res) => {
   const { email, password } = req.body;
@@ -9,12 +8,7 @@ const postLoginController = (req, res) => {
     password,
   })
     .then((user) => {
-      res.cookie("userId", objectIdToStringId(user?._id), {
-        expires: new Date(Date.now() + 86400000),
-        /* maxAge: 86400000,
-        secure : true,
-        httpOnly : true, */
-      });
+      req.session.userId = user?._id;
       return res.redirect("/shop/");
     })
     .catch(() => {

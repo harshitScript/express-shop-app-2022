@@ -1,7 +1,7 @@
 const User = require("../../Modals/User");
 
 const authenticationChecker = (req, res, next) => {
-  const { userId } = req.cookies;
+  const { userId } = req.session;
 
   const failureCallback = (error) => {
     console.log("The error is: ", error);
