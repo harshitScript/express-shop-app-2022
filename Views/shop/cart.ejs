@@ -61,7 +61,7 @@
     <button class="floating_pay_button">Checkout</button>
   </form>
 
-  <% } else { %>
+  <%- include("../includes/logout-btn.ejs") %> <% } else { %>
   <p class="empty_cart_msg">Cart seems empty.</p>
   <% } %>
 </main>

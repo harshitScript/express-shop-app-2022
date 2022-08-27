@@ -10,8 +10,7 @@
     </article>
     <% }); %>
   </div>
-
-  <% } else { %>
+  <%- include("../includes/logout-btn.ejs") %> <% } else { %>
   <p class="empty_cart_msg">No Orders !</p>
   <% } %>
 </main>

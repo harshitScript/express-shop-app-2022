@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 
 const getLoginFormController = require("../Controllers/auth/getLoginFormController");
 const postLoginController = require("../Controllers/auth/postLoginController");
+const getLogoutController = require("../Controllers/auth/getLogoutController");
 
 const authRoutes = express.Router();
 
@@ -13,5 +14,7 @@ authRoutes.post(
   bodyParser.urlencoded({ extended: false }),
   postLoginController
 );
+
+authRoutes.get("/logout", getLogoutController);
 
 module.exports = authRoutes;

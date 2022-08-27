@@ -2,22 +2,25 @@
   <div class="main-header-title">My Shop</div>
   <nav class="main-header__nav">
     <% if(noNavigation) {%>
-    <></>
+    <div></div>
     <% } else { %>
     <ul class="main-header__item-list">
       <li class="main-header__item">
-        <a
-          href="/"
-          class="<%= path === '/' ? 'active' : '' %>"
-          >Home</a
-        >
+        <a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a>
       </li>
       <li class="main-header__item">
         <a href="/shop/" class="<%= path === '/shop/' ? 'active' : '' %>"
           >Shop</a
         >
       </li>
-
+      <li class="main-header__item">
+        <a
+          href="/shop/product-details"
+          class="<%= path === '/shop/product-details' ? 'active' : '' %>"
+          >Product-Details</a
+        >
+      </li>
+      <% if(isAuthenticated){ %>
       <li class="main-header__item">
         <a
           href="/shop/cart"
@@ -34,36 +37,26 @@
       </li>
       <li class="main-header__item">
         <a
-          href="/shop/product-details"
-          class="<%= path === '/shop/product-details' ? 'active' : '' %>"
-          >Product-Details</a
+          href="/admin/add-product"
+          class="<%= path === '/admin/add-product' ? 'active' : '' %>"
+          >Add Product</a
         >
       </li>
-      <% if(isAuthenticated){ %>
-        <li class="main-header__item">
-          <a
-            href="/admin/add-product"
-            class="<%= path === '/admin/add-product' ? 'active' : '' %>"
-            >Add Product</a
-          >
-        </li>
-        <li class="main-header__item">
-          <a
-            href="/admin/edit-product"
-            class="<%= path === '/admin/edit-product' ? 'active' : '' %>"
-            >Edit Product</a
-          >
-        </li>
-        <li class="main-header__item">
-          <a
-            href="/admin/products"
-            class="<%= path === '/admin/products' ? 'active' : '' %>"
-            >Admin Products</a
-          >
-        </li>
-        <% } %>
-      
-      
+      <li class="main-header__item">
+        <a
+          href="/admin/edit-product"
+          class="<%= path === '/admin/edit-product' ? 'active' : '' %>"
+          >Edit Product</a
+        >
+      </li>
+      <li class="main-header__item">
+        <a
+          href="/admin/products"
+          class="<%= path === '/admin/products' ? 'active' : '' %>"
+          >Admin Products</a
+        >
+      </li>
+      <% } %>
     </ul>
     <% } %>
   </nav>

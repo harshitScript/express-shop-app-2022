@@ -1,4 +1,6 @@
+<% if(isAuthenticated){ %>
 <form method="POST" action="/shop/cart/<%= singleProduct?._id %>">
   <input type="hidden" name="product_id" value="<%= singleProduct?._id %>" />
   <button class="btn">Add To Cart</button>
 </form>
+<% } %>
