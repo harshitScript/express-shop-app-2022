@@ -5,6 +5,7 @@ const authenticationChecker = (req, res, next) => {
 
   const failureCallback = (error) => {
     console.log("The error is: ", error);
+    return next();
   };
 
   const successCallback = (user) => {

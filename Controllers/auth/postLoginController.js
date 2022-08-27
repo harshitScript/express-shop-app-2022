@@ -9,7 +9,10 @@ const postLoginController = (req, res) => {
   })
     .then((user) => {
       req.session.userId = user?._id;
-      return res.redirect("/shop/");
+      req.session.save((err) => {
+        if (err) return console.log("error occured while saving the session.");
+        return res.redirect("/shop/");
+      });
     })
     .catch(() => {
       console.log("User not found.");
