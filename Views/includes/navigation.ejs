@@ -56,6 +56,14 @@
           >Admin Products</a
         >
       </li>
+      <% } else{ %>
+      <li class="main-header__item">
+        <a
+          href="/auth/login"
+          class="<%= (path === '/auth/login' || path === '/auth/signup') ? 'active' : '' %>"
+          >Log-in/Sign-up</a
+        >
+      </li>
       <% } %>
     </ul>
     <% } %>

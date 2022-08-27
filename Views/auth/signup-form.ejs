@@ -2,8 +2,18 @@
 %>
 <div class="flex-row-centered">
   <div class="card login-form-card">
-    <h1 class="text-center">Login Form</h1>
-    <form class="product-form" method="POST" action="/auth/authenticating">
+    <h1 class="text-center">Signup Form</h1>
+    <form class="product-form" method="POST" action="/auth/signup-user">
+      <div class="form-control">
+        <input
+          class="w-100"
+          type="text"
+          name="name"
+          placeholder="enter your name"
+          required
+          autofocus
+        />
+      </div>
       <div class="form-control">
         <input
           class="w-100"
@@ -24,13 +34,16 @@
         />
       </div>
       <div class="form-control">
-        <button type="submit" class="btn w-100">Log-in</button>
+        <input
+          class="w-100"
+          type="password"
+          name="confirm-password"
+          placeholder="confirm your password"
+          required
+        />
       </div>
       <div class="form-control">
-        <p class="text-center">OR</p>
-      </div>
-      <div class="form-control">
-        <a href="/auth/signup" class="btn w-100">Sign-up</a>
+        <button class="btn w-100">Sign-up</button>
       </div>
     </form>
   </div>

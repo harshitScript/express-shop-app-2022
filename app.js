@@ -13,7 +13,6 @@ const errorRoute = require("./routes/error");
 const homeRoute = require("./routes/home");
 const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const User = require("./Modals/User");
 const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
 const session = require("express-session");
@@ -30,8 +29,7 @@ config(); //* to access the env files
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   sessions({
-    secret:
-      "some very long string to hash the session id we'll set to the client side.",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
     store: sessionStoreCreator(session),
@@ -57,25 +55,13 @@ serverStarted.on("server_on", () => {
 });
 
 const databaseConnectionSuccessCallback = async () => {
-  const user = await User.findOne();
-
-  if (!user) {
-    new User({
-      email: "admin@gmail.com",
-      name: "admin",
-      cart: [],
-      orderIds: [],
-      ordersPlaced: 0,
-    }).save();
-  } else {
-    app.listen(process.env.PORT, (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        serverStarted.emit("server_on");
-      }
-    });
-  }
+  app.listen(process.env.PORT, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      serverStarted.emit("server_on");
+    }
+  });
 };
 
 const databaseConnectionFailureCallback = (error) => {
