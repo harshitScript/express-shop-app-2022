@@ -15,7 +15,7 @@ const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
-const session = require("express-session");
+const checkEnv = require("./envCheck");
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: false,
-    store: sessionStoreCreator(session),
+    store: sessionStoreCreator(sessions),
     cookie: {
       expiry: new Date().setDate(new Date().getDate + 1),
     },
@@ -68,7 +68,16 @@ const databaseConnectionFailureCallback = (error) => {
   console.log("The error is: ", error);
 };
 
-connectMongoose(
-  databaseConnectionSuccessCallback,
-  databaseConnectionFailureCallback
-);
+const envFailureCallback = () => {
+  console.log(".env FILE IS NOT FOUND.");
+};
+
+checkEnv()
+  .then(
+    connectMongoose.bind(
+      null,
+      databaseConnectionSuccessCallback,
+      databaseConnectionFailureCallback
+    )
+  )
+  .catch(envFailureCallback);
