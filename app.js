@@ -1,6 +1,7 @@
 //? Third party modules
 const express = require("express");
 const sessions = require("express-session");
+const { config } = require("dotenv");
 
 //? Core modules
 const path = require("path");
@@ -21,6 +22,8 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+config(); //* to access the env files
 
 //* => Request will fall down from here.
 
@@ -48,7 +51,9 @@ app.use(errorRoute);
 const serverStarted = new EventEmitter();
 
 serverStarted.on("server_on", () => {
-  console.log("Harshit's Express Server is running on port 4000");
+  console.log(
+    `Harshit's Express Server is running on port ${process.env.PORT}`
+  );
 });
 
 const databaseConnectionSuccessCallback = async () => {
@@ -63,7 +68,7 @@ const databaseConnectionSuccessCallback = async () => {
       ordersPlaced: 0,
     }).save();
   } else {
-    app.listen(4000, (err) => {
+    app.listen(process.env.PORT, (err) => {
       if (err) {
         console.log(err);
       } else {

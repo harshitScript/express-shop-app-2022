@@ -1,15 +1,12 @@
 const Mongoose = require("mongoose");
 const mongoDbStoreCreator = require("connect-mongodb-session");
 
-const MONGO_URI =
-  "mongodb+srv://harshitScript:hrsht-x007@cluster0.gjnrywi.mongodb.net/express_first_project";
-
 const connectMongoose = (successCallback, failureCallback) => {
-  const connectionSuccessCallback = (client) => {
+  const connectionSuccessCallback = () => {
     successCallback();
   };
 
-  Mongoose.connect(MONGO_URI)
+  Mongoose.connect(process.env.MONGO_URI)
     .then(connectionSuccessCallback)
     .catch(failureCallback);
 };
@@ -18,7 +15,7 @@ const sessionStoreCreator = (session) => {
   const MongoDbStore = mongoDbStoreCreator(session);
 
   const sessionStore = new MongoDbStore({
-    uri: MONGO_URI,
+    uri: process.env.MONGO_URI,
     collection: "sessions",
     databaseName: "express_first_project",
   });
