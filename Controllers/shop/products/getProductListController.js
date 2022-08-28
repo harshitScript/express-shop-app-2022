@@ -8,7 +8,6 @@ const getProductListController = (req, res) => {
       docFooter: "Thanks for visiting my shop !",
       path: "/shop/",
       noNavigation: false,
-      isAuthenticated: req.isAuthenticated,
     });
   };
 

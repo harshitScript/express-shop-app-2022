@@ -11,7 +11,6 @@ const getCartController = (req, res) => {
       cartData,
       cartTotal: getCartTotal(cartData),
       noNavigation: false,
-      isAuthenticated: req.isAuthenticated,
     });
   };
 

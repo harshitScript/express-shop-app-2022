@@ -4,7 +4,6 @@ const getHomeController = (req, res, next) => {
     docFooter: "Home page of your shop.",
     path: "/",
     noNavigation: true,
-    isAuthenticated: req.isAuthenticated,
   });
 };
 

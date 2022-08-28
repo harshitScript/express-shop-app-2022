@@ -1,5 +1,6 @@
-<% if(isAuthenticated){ %><a
-  class="btn floating_logout_button"
-  href="/auth/logout"
-  >Logout</a
+<% if(isAuthenticated){ %>
+<form method="POST" action="/auth/logout">
+  <%- include("./csrf-token-input.ejs") %>
+  <button class="btn floating_logout_button">Logout</button>
+</form>
 ><% } %>

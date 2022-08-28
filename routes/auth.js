@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 
 const getLoginFormController = require("../Controllers/auth/getLoginFormController");
 const postLoginController = require("../Controllers/auth/postLoginController");
-const getLogoutController = require("../Controllers/auth/getLogoutController");
+const postLogoutController = require("../Controllers/auth/postLogoutController");
 const getSignUpController = require("../Controllers/auth/getSignUpController");
 const postSignUpController = require("../Controllers/auth/postSignUpController");
 
@@ -17,7 +17,7 @@ authRoutes.post(
   postLoginController
 );
 
-authRoutes.get("/logout", getLogoutController);
+authRoutes.post("/logout", postLogoutController);
 
 authRoutes.get("/signup", getSignUpController);
 

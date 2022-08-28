@@ -10,7 +10,6 @@ const getLoginFormController = (req, res) => {
     docFooter: "Login to start shopping.",
     path: "/auth/login",
     noNavigation: false,
-    isAuthenticated: req.isAuthenticated,
   });
 };
 

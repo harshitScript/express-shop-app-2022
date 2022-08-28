@@ -2,10 +2,12 @@
 const express = require("express");
 const sessions = require("express-session");
 const { config } = require("dotenv");
+const csrf = require("csurf");
 
 //? Core modules
 const path = require("path");
 const EventEmitter = require("events");
+const bodyParser = require("body-parser");
 
 //? Local imports
 const { connectMongoose, sessionStoreCreator } = require("./util/database");
@@ -16,6 +18,7 @@ const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
 const checkEnv = require("./envCheck");
+const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
 
 const app = express();
 
@@ -38,7 +41,9 @@ app.use(
     },
   })
 );
+app.use(bodyParser.urlencoded({ extended: false }), csrf());
 app.use(authenticationChecker);
+app.use(commonViewOptionsProviderMiddleware);
 app.use("/admin", adminRoutes);
 app.use("/shop", shopRoutes);
 app.use("/auth", authRoutes);

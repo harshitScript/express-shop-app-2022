@@ -12,6 +12,7 @@
           placeholder="enter your name"
           required
           autofocus
+          autocapitalize
         />
       </div>
       <div class="form-control">
@@ -42,6 +43,7 @@
           required
         />
       </div>
+      <%- include("../includes/csrf-token-input.ejs") %>
       <div class="form-control">
         <button class="btn w-100">Sign-up</button>
       </div>

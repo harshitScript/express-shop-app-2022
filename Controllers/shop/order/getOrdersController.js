@@ -8,7 +8,6 @@ const getOrdersController = (req, res, next) => {
       path: "/shop/orders",
       ordersData,
       noNavigation: false,
-      isAuthenticated: req.isAuthenticated,
     });
   };
 

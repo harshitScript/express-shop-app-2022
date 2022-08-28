@@ -10,10 +10,9 @@ const getEditProductsController = (req, res) => {
       path: "/admin/edit-product",
       product: product,
       noNavigation: false,
-      isAuthenticated: req.isAuthenticated,
     });
   };
-  
+
   const failureCallback = (error) => {
     console.log(error.message);
   };

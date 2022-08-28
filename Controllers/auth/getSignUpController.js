@@ -4,7 +4,6 @@ const getSignUpController = (req, res) => {
     docFooter: "The sign up form.",
     path: "/auth/signup",
     noNavigation: false,
-    isAuthenticated: req.isAuthenticated,
   });
 };
 
