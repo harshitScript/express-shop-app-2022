@@ -3,6 +3,7 @@ const express = require("express");
 const sessions = require("express-session");
 const { config } = require("dotenv");
 const csrf = require("csurf");
+const flash = require("connect-flash");
 
 //? Core modules
 const path = require("path");
@@ -41,6 +42,7 @@ app.use(
     },
   })
 );
+app.use(flash());
 app.use(bodyParser.urlencoded({ extended: false }), csrf());
 app.use(authenticationChecker);
 app.use(commonViewOptionsProviderMiddleware);

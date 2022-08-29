@@ -16,14 +16,10 @@ const getProductListController = (req, res) => {
     return res.redirect("/");
   };
 
-  //? This will fetch all the products from the Product modal.
   Product.find()
-    /* .select(`title imageURL price _id `) */
+
     .then(productsCallback)
     .catch(productsFailureCallback);
-
-  /* res.writeHead(302, "Redirection", { location: "/message" });
-        return res.end(); */
 };
 
 module.exports = getProductListController;

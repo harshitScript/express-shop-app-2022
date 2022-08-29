@@ -9,14 +9,19 @@ const postLoginController = (req, res) => {
     password: generateHashedPassword("sha512", password),
   })
     .then((user) => {
-      req.session.userId = user?._id;
-      req.session.save((err) => {
-        if (err) return console.log("error occurred while saving the session.");
-        return res.redirect("/shop/");
-      });
+      if (user) {
+        req.session.userId = user?._id;
+        return req.session.save((err) => {
+          if (err)
+            return console.log("error occurred while saving the session.");
+          return res.redirect("/shop/");
+        });
+      }
+      req.flash("error", "User not found.");
+      return res.redirect("/auth/login");
     })
-    .catch(() => {
-      console.log("User not found.");
+    .catch((error) => {
+      console.log("The error is : ", error);
     });
 };
 

@@ -3,6 +3,9 @@
 <div class="flex-row-centered">
   <div class="card login-form-card">
     <h1 class="text-center">Login Form</h1>
+    <% if(errorMessage){ %>
+    <p class="error"><%= errorMessage %></p>
+    <% } %>
     <form class="product-form" method="POST" action="/auth/authenticating">
       <div class="form-control">
         <input
