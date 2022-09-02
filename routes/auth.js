@@ -6,10 +6,16 @@ const postLoginController = require("../Controllers/auth/postLoginController");
 const postLogoutController = require("../Controllers/auth/postLogoutController");
 const getSignUpController = require("../Controllers/auth/getSignUpController");
 const postSignUpController = require("../Controllers/auth/postSignUpController");
+const getResetPasswordController = require("../Controllers/auth/getResetPasswordController");
+const postResetPasswordController = require("../Controllers/auth/postResetPasswordController");
 
 const authRoutes = express.Router();
 
 authRoutes.get("/login", getLoginFormController);
+
+authRoutes.get("/reset-password", getResetPasswordController);
+
+authRoutes.post("/reset-password", postResetPasswordController);
 
 authRoutes.post(
   "/authenticating",

@@ -28,14 +28,13 @@ const postLoginController = (req, res) => {
       res.redirect("/auth/login");
     })
     .then(() => {
-      return transport.sendMail({
+      transport.sendMail({
         to: email,
         from: process.env.SERVER_MAIL,
         subject: "Login successful.",
         html: "<p>welcome to your own express shop 2022.</p>",
       });
-    })
-    .then(() => {
+
       return res.redirect("/shop/");
     })
     .catch((error) => {

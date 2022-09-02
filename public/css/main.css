@@ -58,7 +58,7 @@ main {
 }
 
 .form-control {
-  padding: 1rem;
+  padding: 1rem 0rem;
   box-sizing: border-box;
 }
 
@@ -414,4 +414,20 @@ button:hover,
   font-size: 0.8rem;
   color: red;
   text-align: center;
+}
+
+a.links,
+a.links:active,
+a.links:visited {
+  color: yellow !important;
+  text-decoration: none !important;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+}
+
+a.links:hover {
+  color: lightgreen !important;
 }
