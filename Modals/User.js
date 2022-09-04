@@ -41,6 +41,12 @@ const userSchema = new Schema({
     type: Number,
     required: true,
   },
+  resetPasswordToken: {
+    type: String,
+  },
+  resetPasswordTokenExpiryDate: {
+    type: Date,
+  },
 });
 
 //? non static method(called on instance) -------------------------------------------

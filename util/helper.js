@@ -1,5 +1,5 @@
 const { ObjectId } = require("mongodb");
-const { createHmac } = require("crypto");
+const { createHmac, randomBytes } = require("crypto");
 
 const getCartTotal = (cartData = []) => {
   return cartData.reduce((acc, curr) => {
@@ -23,9 +23,22 @@ const generateHashedPassword = (algorithm = "sha256", password = "") => {
   return hashedPassword;
 };
 
+const tokenGenerationPromise = new Promise((resolve, reject) => {
+  randomBytes(32, (err, buffer) => {
+    if (err) {
+      reject(err);
+    }
+
+    const token = buffer.toString("hex");
+
+    resolve(token);
+  });
+});
+
 module.exports = {
   getCartTotal,
   objectIdToStringId,
   stringIdToObjectId,
   generateHashedPassword,
+  tokenGenerationPromise,
 };

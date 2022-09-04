@@ -1,5 +1,7 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
-%>
+%> <% if(successMessage){ %>
+<p class="success h-centered w-50"><%= successMessage %></p>
+<% } %>
 <main class="flex-row-centered gap-half-rem">
   <!-- <a class="btn" href="/admin/products">Admin</a> -->
   <a class="btn" href="/shop/">Customer</a>

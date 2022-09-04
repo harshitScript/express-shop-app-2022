@@ -8,10 +8,20 @@ const getSignUpController = require("../Controllers/auth/getSignUpController");
 const postSignUpController = require("../Controllers/auth/postSignUpController");
 const getResetPasswordController = require("../Controllers/auth/getResetPasswordController");
 const postResetPasswordController = require("../Controllers/auth/postResetPasswordController");
+const getNewPasswordFormController = require("../Controllers/auth/getNewPasswordFormController");
+const postNewPasswordController = require("../Controllers/auth/postNewPasswordController");
 
 const authRoutes = express.Router();
 
 authRoutes.get("/login", getLoginFormController);
+
+authRoutes.get("/reset-password/:reset_token", getNewPasswordFormController);
+
+authRoutes.post(
+  "/save-new-password",
+  bodyParser.urlencoded({ extended: false }),
+  postNewPasswordController
+);
 
 authRoutes.get("/reset-password", getResetPasswordController);
 

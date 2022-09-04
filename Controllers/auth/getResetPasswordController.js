@@ -4,7 +4,7 @@ const getResetPasswordController = (req, res, next) => {
     docFooter: "The Reset Password form.",
     path: "/auth/reset-password",
     noNavigation: false,
-    errorMessage: "",
+    errorMessage: req.flash("error")[0],
   });
 };
 

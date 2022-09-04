@@ -386,6 +386,14 @@ button:hover,
   width: 100%;
 }
 
+.w-50 {
+  width: 50%;
+}
+
+.h-centered {
+  margin: 0 auto;
+}
+
 .floating_logout_button {
   min-width: 10rem;
   min-height: 3rem;
@@ -414,6 +422,18 @@ button:hover,
   font-size: 0.8rem;
   color: red;
   text-align: center;
+  padding: 1rem;
+  border: 1px solid red;
+  background-color: rgb(248, 185, 185);
+}
+
+.success {
+  font-size: 0.8rem;
+  color: rgb(0, 71, 15);
+  text-align: center;
+  padding: 1rem;
+  border: 1px solid rgb(0, 71, 15);
+  background-color: rgb(161, 240, 177);
 }
 
 a.links,

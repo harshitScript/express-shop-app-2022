@@ -5,6 +5,8 @@
     <h1 class="text-center">Login Form</h1>
     <% if(errorMessage){ %>
     <p class="error"><%= errorMessage %></p>
+    <% }else if(successMessage){ %>
+    <p class="success"><%= successMessage %></p>
     <% } %>
     <form class="product-form" method="POST" action="/auth/authenticating">
       <div class="form-control">
