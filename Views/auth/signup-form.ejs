@@ -43,6 +43,12 @@
           required
         />
       </div>
+      <div class="form-control">
+        <select class="w-100" name="role" required>
+          <option value="user" selected>User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
       <%- include("../includes/csrf-token-input.ejs") %>
       <div class="form-control">
         <button class="btn w-100">Sign-up</button>
