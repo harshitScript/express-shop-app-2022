@@ -8,7 +8,7 @@ const getEditProductsController = require("../controllers/admin/products/getEdit
 const getAdminProductsController = require("../controllers/admin/products/getAdminProductsController");
 const deleteProductController = require("../controllers/admin/products/deleteProductController");
 const editProductsController = require("../controllers/admin/products/editProductsController");
-const isAuthMiddleware = require("../Controllers/middleware/isAuthMiddleware");
+const isAdminAuthMiddleware = require("../Controllers/middleware/isAdminAuthMiddleware");
 
 const adminRoutes = express.Router();
 
@@ -16,24 +16,36 @@ const adminRoutes = express.Router();
 adminRoutes.post(
   "/product",
   bodyParser.urlencoded({ extended: false }),
-  isAuthMiddleware,
+  isAdminAuthMiddleware,
   postProductsController.middleWare
 );
 
 //* "/admin/add-product"
-adminRoutes.get("/add-product", isAuthMiddleware, getAddProductsController);
+adminRoutes.get(
+  "/add-product",
+  isAdminAuthMiddleware,
+  getAddProductsController
+);
 
-adminRoutes.get("/edit-product", isAuthMiddleware, getEditProductsController);
+adminRoutes.get(
+  "/edit-product",
+  isAdminAuthMiddleware,
+  getEditProductsController
+);
 
 adminRoutes.post(
   "/edit-product/:id",
   bodyParser.urlencoded({ extended: false }),
-  isAuthMiddleware,
+  isAdminAuthMiddleware,
   editProductsController
 );
 
-adminRoutes.get("/delete-product", isAuthMiddleware, deleteProductController);
+adminRoutes.get(
+  "/delete-product",
+  isAdminAuthMiddleware,
+  deleteProductController
+);
 
-adminRoutes.get("/products", isAuthMiddleware, getAdminProductsController);
+adminRoutes.get("/products", isAdminAuthMiddleware, getAdminProductsController);
 
 module.exports = { adminRoutes }; //? a valid middleware

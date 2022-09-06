@@ -12,33 +12,33 @@ const addToCartController = require("../controllers/shop/cart/addToCartControlle
 const deleteCartProductController = require("../controllers/shop/cart/deleteCartProductController");
 const getOrderOverviewController = require("../controllers/shop/order/getOrderOverviewController");
 //? Auth imports
-const isAuthMiddleware = require("../Controllers/middleware/isAuthMiddleware");
+const isUserAuthMiddleware = require("../Controllers/middleware/isUserAuthMiddleware");
 
 const shopRoutes = express.Router();
 
 shopRoutes.post(
   "/cart/:id/delete",
-  isAuthMiddleware,
+  isUserAuthMiddleware,
   bodyParser.urlencoded({ extended: false }),
   deleteCartProductController
 );
 
 shopRoutes.post(
   "/cart/:id",
-  isAuthMiddleware,
+  isUserAuthMiddleware,
   bodyParser.urlencoded({ extended: false }),
   addToCartController
 );
 
-shopRoutes.get("/cart", isAuthMiddleware, getCartController);
+shopRoutes.get("/cart", isUserAuthMiddleware, getCartController);
 
-shopRoutes.get("/orders", isAuthMiddleware, getOrdersController);
+shopRoutes.get("/orders", isUserAuthMiddleware, getOrdersController);
 
-shopRoutes.post("/orders", isAuthMiddleware, postOrdersController);
+shopRoutes.post("/orders", isUserAuthMiddleware, postOrdersController);
 
 shopRoutes.get(
   "/order-overview/:orderId",
-  isAuthMiddleware,
+  isUserAuthMiddleware,
   getOrderOverviewController
 );
 

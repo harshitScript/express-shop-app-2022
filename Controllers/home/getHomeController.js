@@ -5,6 +5,7 @@ const getHomeController = (req, res, next) => {
     path: "/",
     noNavigation: true,
     successMessage: req.flash("success")[0],
+    errorMessage: req.flash("error")[0],
   });
 };
 

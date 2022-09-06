@@ -63,7 +63,8 @@ main {
 }
 
 .form-control input,
-.form-control label {
+.form-control label,
+.form-control select {
   display: block;
 }
 
@@ -72,7 +73,8 @@ main {
   font-size: 1.2rem;
 }
 
-.form-control input {
+.form-control input,
+.form-control select {
   border: 2px solid #f4f449;
   font: inherit;
   border-radius: 2px;

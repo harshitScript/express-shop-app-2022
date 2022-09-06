@@ -2,7 +2,7 @@ const User = require("../../Modals/User");
 const { generateHashedPassword } = require("../../util/helper");
 
 const postSignUpController = (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const hashedPassword = generateHashedPassword("sha512", password);
 
@@ -13,6 +13,7 @@ const postSignUpController = (req, res) => {
     cart: [],
     orderIds: [],
     ordersPlaced: 0,
+    role,
   });
 
   const failureCallback = (error) => {

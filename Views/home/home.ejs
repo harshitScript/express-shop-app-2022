@@ -1,10 +1,12 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
 %> <% if(successMessage){ %>
 <p class="success h-centered w-50"><%= successMessage %></p>
+<% }else if(errorMessage){ %>
+<p class="error h-centered w-50"><%= errorMessage %></p>
 <% } %>
 <main class="flex-row-centered gap-half-rem">
   <!-- <a class="btn" href="/admin/products">Admin</a> -->
-  <a class="btn" href="/shop/">Customer</a>
+  <a class="btn" href="/shop/">Get Started</a>
 </main>
 <%- include("../includes/logout-btn.ejs") %> <%- include("../includes/end.ejs")
 %>

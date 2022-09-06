@@ -4,13 +4,6 @@ const { generateHashedPassword } = require("../../util/helper");
 const postLoginController = (req, res) => {
   const { email, password } = req.body;
 
-  console.log(
-    "the email password , hashed-password",
-    email,
-    password,
-    generateHashedPassword("sha512", password)
-  );
-
   User.findOne({
     email,
     password: generateHashedPassword("sha512", password),
@@ -23,7 +16,10 @@ const postLoginController = (req, res) => {
             req.flash("error", "Error creating session.");
             return res.redirect("/auth/login");
           }
-          return res.redirect("/shop/");
+
+          return res.redirect(
+            user.role === "admin" ? "/admin/products" : "/shop/"
+          );
         });
       }
       req.flash("error", "User not found.");

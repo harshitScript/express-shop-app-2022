@@ -9,9 +9,14 @@ const authenticationChecker = (req, res, next) => {
   };
 
   const successCallback = (user) => {
+    if (!user) {
+      req.isAuthenticated = false;
+      return next();
+    }
     req.user = user;
-    req.isAuthenticated = !!userId;
-    next();
+    req.isAuthenticated = true;
+    req.role = user.role;
+    return next();
   };
 
   User.findById(userId).then(successCallback).catch(failureCallback);
