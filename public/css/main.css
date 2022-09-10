@@ -454,3 +454,7 @@ a.links:visited {
 a.links:hover {
   color: lightgreen !important;
 }
+
+.invalid {
+  border: 2px solid red !important;
+}

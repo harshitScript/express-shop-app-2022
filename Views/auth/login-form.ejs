@@ -3,11 +3,14 @@
 <div class="flex-row-centered">
   <div class="card login-form-card">
     <h1 class="text-center">Login Form</h1>
-    <% if(errorMessage){ %>
-    <p class="error"><%= errorMessage %></p>
-    <% }else if(successMessage){ %>
-    <p class="success"><%= successMessage %></p>
-    <% } %>
+    <% if(error){ %>
+    <p class="error"><%= error %></p>
+    <% }else if(success){ %>
+    <p class="success"><%= success %></p>
+    <% } %> <% if(validation_errors.length){ %> <%
+    validation_errors.forEach(function(validation_error){ %>
+    <p class="error"><%= validation_error?.msg %></p>
+    <% }) %> <% } %>
     <form class="product-form" method="POST" action="/auth/authenticating">
       <div class="form-control">
         <input
@@ -17,6 +20,7 @@
           placeholder="enter your email"
           required
           autofocus
+          value="<%= old_email  %>"
         />
       </div>
       <div class="form-control">

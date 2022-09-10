@@ -6,13 +6,10 @@ const postSignUpController = (req, res) => {
   const { name, email, password, role } = req.body;
 
   const validationErrors = validationResult(req);
-  console.log("The validationErrors", validationErrors?.errors);
+
   if (!validationErrors.isEmpty()) {
-    console.log();
-    req.flash(
-      "error",
-      validationErrors?.errors.map((error) => `${error?.msg}`)
-    );
+    req.flash("validation_error", validationErrors?.errors);
+    req.flash("old_input", { name, email, role });
     res.status(422);
     return res.redirect("/auth/signup");
   }

@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { body, header, query, param, check } = require("express-validator");
 
+const User = require("../Modals/User");
 const getLoginFormController = require("../Controllers/auth/getLoginFormController");
 const postLoginController = require("../Controllers/auth/postLoginController");
 const postLogoutController = require("../Controllers/auth/postLogoutController");
@@ -31,6 +32,12 @@ authRoutes.post("/reset-password", postResetPasswordController);
 authRoutes.post(
   "/authenticating",
   bodyParser.urlencoded({ extended: false }),
+  [
+    body("email").isEmail().withMessage("Email not valid."),
+    body("password")
+      .isLength({ min: 5, max: 10 })
+      .withMessage("Password Must be between 5-10 characters"),
+  ],
   postLoginController
 );
 
@@ -43,9 +50,20 @@ authRoutes.post(
 
   bodyParser.urlencoded({ extended: false }),
 
-  body("name")?.trim().isAlpha().withMessage("Name must be in characters"),
+  body("name")?.trim().isString().withMessage("Name must be in characters"),
 
-  body("email")?.trim().isEmail().withMessage("Email not valid."),
+  body("email")
+    ?.trim()
+    .isEmail()
+    .withMessage("Email not valid.")
+    .custom((value) => {
+      return User.findOne({ email: value }).then((user) => {
+        if (user) {
+          //* Used to throw error from inside the promises.
+          return Promise.reject("Email id already exist.");
+        }
+      });
+    }),
 
   body("password")
     ?.trim()
@@ -55,18 +73,15 @@ authRoutes.post(
   body("confirm-password")
     ?.trim()
     ?.isLength({ min: 5, max: 10 })
-    .withMessage("Password Must be between 5-10 characters"),
-  //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
-  /* .custom((value) => {
-      if (value !== "") {
-
-        
-
-        throw new Error("Confirm password not matched.");
-        return;
+    .withMessage("Password Must be between 5-10 characters")
+    .custom((value, { req }) => {
+      //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
+      if (value !== req.body.password) {
+        throw new Error("Password not matched !");
       }
       return true;
-    }) */ postSignUpController
+    }),
+  postSignUpController
 );
 
 module.exports = authRoutes;

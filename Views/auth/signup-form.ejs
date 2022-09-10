@@ -3,13 +3,18 @@
 <div class="flex-row-centered">
   <div class="card login-form-card">
     <h1 class="text-center">Signup Form</h1>
-    <% if(errors.length){ %> <% errors.forEach(function(error){ %>
+    <% if(error){ %>
     <p class="error"><%= error %></p>
-    <% }) %> <% } %>
+    <% }else if(success){ %>
+    <p class="success"><%= success %></p>
+    <% } %> <% if(validation_errors.length){ %> <%
+    validation_errors.forEach(function(validation_error){ %>
+    <p class="error"><%= validation_error?.msg %></p>
+    <% }) %><% } %>
     <form class="product-form" method="POST" action="/auth/signup-user">
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'name') ? 'invalid' : '' %>"
           type="text"
           name="name"
           placeholder="enter your name"
@@ -20,17 +25,16 @@
       </div>
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'email') ? 'invalid' : '' %>"
           type="text"
           name="email"
           placeholder="enter your email"
           required
-          autofocus
         />
       </div>
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'password') ? 'invalid' : '' %>"
           type="password"
           name="password"
           placeholder="enter your password"
@@ -39,7 +43,7 @@
       </div>
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'confirm-password') ? 'invalid' : '' %>"
           type="password"
           name="confirm-password"
           placeholder="confirm your password"
