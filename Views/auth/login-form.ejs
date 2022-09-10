@@ -14,7 +14,7 @@
     <form class="product-form" method="POST" action="/auth/authenticating">
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'email') ? 'invalid' : '' %>"
           type="text"
           name="email"
           placeholder="enter your email"
@@ -25,7 +25,7 @@
       </div>
       <div class="form-control">
         <input
-          class="w-100"
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'password') ? 'invalid' : '' %>"
           type="password"
           name="password"
           placeholder="enter your password"

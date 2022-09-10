@@ -33,8 +33,9 @@ authRoutes.post(
   "/authenticating",
   bodyParser.urlencoded({ extended: false }),
   [
-    body("email").isEmail().withMessage("Email not valid."),
+    body("email").isEmail().withMessage("Email not valid.").normalizeEmail(),
     body("password")
+      .trim()
       .isLength({ min: 5, max: 10 })
       .withMessage("Password Must be between 5-10 characters"),
   ],
@@ -53,7 +54,6 @@ authRoutes.post(
   body("name")?.trim().isString().withMessage("Name must be in characters"),
 
   body("email")
-    ?.trim()
     .isEmail()
     .withMessage("Email not valid.")
     .custom((value) => {
@@ -63,7 +63,8 @@ authRoutes.post(
           return Promise.reject("Email id already exist.");
         }
       });
-    }),
+    })
+    .normalizeEmail(),
 
   body("password")
     ?.trim()
