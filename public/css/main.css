@@ -427,6 +427,7 @@ button:hover,
   padding: 1rem;
   border: 1px solid red;
   background-color: rgb(248, 185, 185);
+  margin: 0.5rem 0;
 }
 
 .success {

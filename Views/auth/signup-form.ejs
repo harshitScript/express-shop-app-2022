@@ -3,6 +3,9 @@
 <div class="flex-row-centered">
   <div class="card login-form-card">
     <h1 class="text-center">Signup Form</h1>
+    <% if(errors.length){ %> <% errors.forEach(function(error){ %>
+    <p class="error"><%= error %></p>
+    <% }) %> <% } %>
     <form class="product-form" method="POST" action="/auth/signup-user">
       <div class="form-control">
         <input

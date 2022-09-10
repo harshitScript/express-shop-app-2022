@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { body, header, query, param, check } = require("express-validator");
 
 const getLoginFormController = require("../Controllers/auth/getLoginFormController");
 const postLoginController = require("../Controllers/auth/postLoginController");
@@ -39,8 +40,33 @@ authRoutes.get("/signup", getSignUpController);
 
 authRoutes.post(
   "/signup-user",
+
   bodyParser.urlencoded({ extended: false }),
-  postSignUpController
+
+  body("name")?.trim().isAlpha().withMessage("Name must be in characters"),
+
+  body("email")?.trim().isEmail().withMessage("Email not valid."),
+
+  body("password")
+    ?.trim()
+    ?.isLength({ min: 5, max: 10 })
+    .withMessage("Password Must be between 5-10 characters"),
+
+  body("confirm-password")
+    ?.trim()
+    ?.isLength({ min: 5, max: 10 })
+    .withMessage("Password Must be between 5-10 characters"),
+  //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
+  /* .custom((value) => {
+      if (value !== "") {
+
+        
+
+        throw new Error("Confirm password not matched.");
+        return;
+      }
+      return true;
+    }) */ postSignUpController
 );
 
 module.exports = authRoutes;
