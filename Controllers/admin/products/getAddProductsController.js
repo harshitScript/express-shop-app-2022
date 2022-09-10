@@ -4,6 +4,10 @@ const getAddProductsController = (req, res, next) => {
     docFooter: "Add Product to your shop.",
     path: "/admin/add-product",
     noNavigation: false,
+    error: req.flash("error")[0],
+    success: req.flash("success")[0],
+    validation_errors: req.flash("validation_error"),
+    old_input: req.flash("old_input")[0] || {},
   });
 };
 

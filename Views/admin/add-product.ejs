@@ -1,53 +1,74 @@
 <%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
 %>
 <main class="flex-row-centered">
-  <form class="product-form" method="POST" action="/admin/product">
-    <div class="form-control">
-      <label for="title"> Title : </label>
-      <input
-        type="text"
-        name="title"
-        required
-        id="title"
-        placeholder="enter title"
-      />
-    </div>
-    <div class="form-control">
-      <label for="title"> Image Url : </label>
-      <input
-        type="text"
-        name="imageURL"
-        required
-        id="imageUrl"
-        placeholder="enter image url"
-      />
-    </div>
-    <div class="form-control">
-      <label for="title"> Price : </label>
-      <input
-        type="number"
-        name="price"
-        required
-        id="price"
-        placeholder="enter price"
-        min="100"
-        max="1000000"
-        step="1"
-      />
-    </div>
-    <div class="form-control">
-      <label for="title"> Description : </label>
-      <textarea
-        type="text"
-        name="description"
-        required
-        id="description"
-        placeholder="enter description"
-        rows="6"
-      ></textarea>
-    </div>
-    <div class="form-control"><button>Add Product</button></div>
-  </form>
+  <div class="card login-form-card">
+    <h1 class="text-center">Add Product Form</h1>
+    <% if(error){ %>
+    <p class="error"><%= error %></p>
+    <% }else if(success){ %>
+    <p class="success"><%= success %></p>
+    <% } %> <% if(validation_errors.length){ %> <%
+    validation_errors.forEach(function(validation_error){ %>
+    <p class="error"><%= validation_error?.msg %></p>
+    <% }) %> <% } %>
+    <form class="product-form" method="POST" action="/admin/product">
+      <div class="form-control">
+        <label for="title"> Title : </label>
+        <input
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'title') ? 'invalid' : '' %>"
+          type="text"
+          name="title"
+          required
+          id="title"
+          placeholder="enter title"
+          value="<%= old_input.title %>"
+        />
+      </div>
+      <div class="form-control">
+        <label for="imageUrl"> Image Url : </label>
+        <input
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'imageURL') ? 'invalid' : '' %>"
+          type="text"
+          name="imageURL"
+          required
+          id="imageUrl"
+          placeholder="enter image url"
+          value="<%= old_input.imageURL %>"
+        />
+      </div>
+      <div class="form-control">
+        <label for="price"> Price : </label>
+        <input
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'price') ? 'invalid' : '' %>"
+          type="number"
+          name="price"
+          required
+          id="price"
+          placeholder="enter price"
+          min="100"
+          max="1000000"
+          step="1"
+          value="<%= old_input.price %>"
+        />
+      </div>
+      <div class="form-control">
+        <label for="title"> Description : </label>
+        <textarea
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'description') ? 'invalid' : '' %>"
+          type="text"
+          name="description"
+          required
+          id="description"
+          placeholder="enter description"
+          rows="6"
+        >
+<%= old_input.description %></textarea
+        >
+      </div>
+      <%- include("../includes/csrf-token-input.ejs") %>
+      <div class="form-control"><button>Add Product</button></div>
+    </form>
+  </div>
 </main>
 <%- include("../includes/logout-btn.ejs") %> <%- include("../includes/end.ejs")
 %>

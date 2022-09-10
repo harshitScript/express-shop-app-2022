@@ -10,6 +10,10 @@ const getEditProductsController = (req, res) => {
       path: "/admin/edit-product",
       product: product,
       noNavigation: false,
+      error: req.flash("error")[0],
+      success: req.flash("success")[0],
+      validation_errors: req.flash("validation_error"),
+      old_input: req.flash("old_input")[0] || {},
     });
   };
 

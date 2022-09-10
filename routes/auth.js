@@ -36,8 +36,8 @@ authRoutes.post(
     body("email").isEmail().withMessage("Email not valid.").normalizeEmail(),
     body("password")
       .trim()
-      .isLength({ min: 5, max: 10 })
-      .withMessage("Password Must be between 5-10 characters"),
+      .isLength({ min: 5, max: 15 })
+      .withMessage("Password Must be between 5-15 characters"),
   ],
   postLoginController
 );
@@ -68,13 +68,13 @@ authRoutes.post(
 
   body("password")
     ?.trim()
-    ?.isLength({ min: 5, max: 10 })
-    .withMessage("Password Must be between 5-10 characters"),
+    ?.isLength({ min: 5, max: 15 })
+    .withMessage("Password Must be between 5-15 characters"),
 
   body("confirm-password")
     ?.trim()
-    ?.isLength({ min: 5, max: 10 })
-    .withMessage("Password Must be between 5-10 characters")
+    ?.isLength({ min: 5, max: 15 })
+    .withMessage("Password Must be between 5-15 characters")
     .custom((value, { req }) => {
       //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
       if (value !== req.body.password) {

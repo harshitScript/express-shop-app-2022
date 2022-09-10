@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const { body } = require("express-validator");
 
 //? Controllers
 const getAddProductsController = require("../controllers/admin/products/getAddProductsController");
@@ -16,6 +17,21 @@ const adminRoutes = express.Router();
 adminRoutes.post(
   "/product",
   bodyParser.urlencoded({ extended: false }),
+  [
+    body("title")
+      .trim()
+      .isLength({ min: 3, max: 25 })
+      .withMessage("Title must be in between 3-25 characters."),
+    body("imageURL")
+      .trim()
+      .isLength({ max: 250 })
+      .withMessage("Url be less than 250 character."),
+    body("price").trim().isNumeric().withMessage("Price must be in Number"),
+    body("description")
+      .trim()
+      .isLength({ min: 5, max: 250 })
+      .withMessage("Description must be in between 5-250 characters."),
+  ],
   isAdminAuthMiddleware,
   postProductsController.middleWare
 );
@@ -36,6 +52,21 @@ adminRoutes.get(
 adminRoutes.post(
   "/edit-product/:id",
   bodyParser.urlencoded({ extended: false }),
+  [
+    body("title")
+      .trim()
+      .isLength({ min: 3, max: 25 })
+      .withMessage("Title must be in between 3-25 characters."),
+    body("imageURL")
+      .trim()
+      .isLength({ max: 250 })
+      .withMessage("Url be less than 250 character."),
+    body("price").trim().isNumeric().withMessage("Price must be in Number"),
+    body("description")
+      .trim()
+      .isLength({ min: 5, max: 250 })
+      .withMessage("Description must be in between 5-250 characters."),
+  ],
   isAdminAuthMiddleware,
   editProductsController
 );
