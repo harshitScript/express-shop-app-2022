@@ -16,7 +16,9 @@ const getOrderOverviewController = (req, res, next) => {
   };
 
   const failureCallback = (error) => {
-    console.log("The error is : ", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   const userWithPopulatedOrderIdsHandler = (userWithPopulatedOrderIds = {}) => {

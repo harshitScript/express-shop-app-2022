@@ -3,9 +3,16 @@ const User = require("../../Modals/User");
 const authenticationChecker = (req, res, next) => {
   const { userId } = req.session;
 
-  const failureCallback = (error) => {
-    console.log("The error is: ", error);
-    return next();
+  const failureCallback = () => {
+    return res.status(500).render("error/500.ejs", {
+      docTitle: "Server down",
+      docFooter: "Server is not in mood.",
+      path: "none",
+      noNavigation: false,
+    });
+
+    //? This might cause a loop of redirection(as redirection is done by browser)
+    //! return res.redirect("/server-error");
   };
 
   const successCallback = (user) => {

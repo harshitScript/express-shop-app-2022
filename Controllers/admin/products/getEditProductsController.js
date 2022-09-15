@@ -1,6 +1,6 @@
 const Product = require("../../../Modals/product");
 
-const getEditProductsController = (req, res) => {
+const getEditProductsController = (req, res, next) => {
   const { id } = req.query;
 
   const successCallback = (product) => {
@@ -18,7 +18,9 @@ const getEditProductsController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log(error.message);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   Product.findById(id).then(successCallback).catch(failureCallback);

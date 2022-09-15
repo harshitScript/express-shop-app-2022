@@ -12,7 +12,9 @@ const getOrdersController = (req, res, next) => {
   };
 
   const failureCallback = (error) => {
-    console.log("Error:", error.message);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   user.populate("orderIds").then(successCallback).catch(failureCallback);

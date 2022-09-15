@@ -1,6 +1,6 @@
 const Product = require("../../../Modals/product");
 
-const getProductDetailsController = (req, res) => {
+const getProductDetailsController = (req, res, next) => {
   const productId = req?.params?.id;
 
   const successCallback = (product) => {
@@ -14,8 +14,9 @@ const getProductDetailsController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log("The error is :", error);
-    return res.redirect("/");
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   //* These methods converts string id into object id automatically.

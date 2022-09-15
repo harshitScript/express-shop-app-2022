@@ -4,7 +4,9 @@ const getNewPasswordFormController = (req, res, next) => {
   const { reset_token: resetPasswordToken } = req.params;
 
   const failureCallback = (error) => {
-    console.log("The error is :", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   User.findOne({

@@ -1,6 +1,6 @@
 const Product = require("../../../Modals/product");
 
-const getAdminProductsController = (req, res) => {
+const getAdminProductsController = (req, res, next) => {
   const adminProductsListCallback = (products) => {
     return res.render("admin/products", {
       docTitle: "Admin Products",
@@ -13,8 +13,9 @@ const getAdminProductsController = (req, res) => {
   };
 
   const adminProductsListFailureCallback = (error) => {
-    console.log(error.message);
-    return res.redirect("/");
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   Product.find()

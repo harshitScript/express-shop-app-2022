@@ -1,6 +1,6 @@
 const Product = require("../../../Modals/product");
 
-const getProductListController = (req, res) => {
+const getProductListController = (req, res, next) => {
   const productsCallback = (products) => {
     return res.render("shop/product-list", {
       docTitle: "Product listing",
@@ -11,15 +11,13 @@ const getProductListController = (req, res) => {
     });
   };
 
-  const productsFailureCallback = (error) => {
-    console.log("The error is : ", error);
-    return res.redirect("/");
+  const productsFailureCallback = (err) => {
+    const error = new Error(err?.message);
+    error.httpStatusCode = 500;
+    return next(error);
   };
 
-  Product.find()
-
-    .then(productsCallback)
-    .catch(productsFailureCallback);
+  Product.find().then(productsCallback).catch(productsFailureCallback);
 };
 
 module.exports = getProductListController;

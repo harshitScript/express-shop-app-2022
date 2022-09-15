@@ -1,6 +1,6 @@
 const { getCartTotal } = require("../../../util/helper");
 
-const getCartController = (req, res) => {
+const getCartController = (req, res, next) => {
   const { user } = req;
 
   const successCallback = (cartData) => {
@@ -15,7 +15,9 @@ const getCartController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log("The error is: ", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   user.getCart(successCallback, failureCallback);

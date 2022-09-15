@@ -1,6 +1,6 @@
 const Product = require("../../../Modals/product");
 
-const deleteProductController = (req, res) => {
+const deleteProductController = (req, res, next) => {
   const { id } = req.query;
 
   const successCallback = () => {
@@ -8,7 +8,9 @@ const deleteProductController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log(error.message);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   Product.findByIdAndDelete(id).then(successCallback).catch(failureCallback);

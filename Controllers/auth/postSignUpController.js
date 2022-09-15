@@ -2,7 +2,7 @@ const User = require("../../Modals/User");
 const { generateHashedPassword } = require("../../util/helper");
 const { validationResult } = require("express-validator");
 
-const postSignUpController = (req, res) => {
+const postSignUpController = (req, res, next) => {
   const { name, email, password, role } = req.body;
 
   const validationErrors = validationResult(req);
@@ -27,7 +27,9 @@ const postSignUpController = (req, res) => {
   });
 
   const failureCallback = (error) => {
-    console.log("The error is : ", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   const successCallback = () => {

@@ -21,7 +21,9 @@ const editProductsController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log("The error is : ", error.message);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   const successCallback = () => {

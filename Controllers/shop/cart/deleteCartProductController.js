@@ -1,4 +1,4 @@
-const deleteCartProductController = (req, res) => {
+const deleteCartProductController = (req, res, next) => {
   const { product_id } = req.body;
   const { user } = req;
 
@@ -7,7 +7,9 @@ const deleteCartProductController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log("The error is: ", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   user.removeFromCart(product_id).then(successCallback).catch(failureCallback);

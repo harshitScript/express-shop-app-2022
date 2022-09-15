@@ -1,11 +1,13 @@
 const User = require("../../Modals/User");
 const { generateHashedPassword } = require("../../util/helper");
 
-const postNewPasswordController = (req, res) => {
+const postNewPasswordController = (req, res, next) => {
   const { new_password, userId, reset_password_token } = req.body;
 
   const failureCallback = (error) => {
-    console.log("The error is :", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   User.findOne({

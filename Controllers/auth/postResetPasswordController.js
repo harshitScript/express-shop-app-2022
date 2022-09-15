@@ -12,11 +12,13 @@ const transport = createTransport(
   })
 );
 
-const postResetPasswordController = (req, res) => {
+const postResetPasswordController = (req, res, next) => {
   const { email } = req.body;
 
   const failureCallback = (error) => {
-    console.log("The error occurred is :", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   User.findOne({ email })

@@ -4,7 +4,9 @@ const postOrdersController = (req, res, next) => {
   const { user } = req;
 
   const failureCallback = (error) => {
-    console.log("The error is: ", error);
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   const successCallback = () => {

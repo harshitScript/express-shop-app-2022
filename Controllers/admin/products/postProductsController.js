@@ -1,7 +1,7 @@
 const Product = require("../../../Modals/product");
 const { validationResult } = require("express-validator");
 
-const postProductsController = (req, res) => {
+const postProductsController = (req, res, next) => {
   const { title, price, description, imageURL } = req.body;
 
   const validationErrors = validationResult(req);
@@ -17,8 +17,9 @@ const postProductsController = (req, res) => {
   };
 
   const failureCallback = (error) => {
-    console.log(error.message);
-    return res.redirect("/");
+    const tempError = new Error(error?.message);
+    tempError.httpStatusCode = 500;
+    next(tempError);
   };
 
   const product = new Product({ title, price, description, imageURL });
