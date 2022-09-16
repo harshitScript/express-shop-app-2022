@@ -1,6 +1,10 @@
 const Product = require("../../../Modals/product");
 
 const getProductListController = (req, res, next) => {
+  //throw new Error(
+  //  "I will reach the express error handling middleware cause i m in synchronous code."
+  //);
+
   const productsCallback = (products) => {
     return res.render("shop/product-list", {
       docTitle: "Product listing",
