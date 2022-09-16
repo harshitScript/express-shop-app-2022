@@ -20,6 +20,7 @@ const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
 const checkEnv = require("./envCheck");
 const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
+const expressErrorController = require("./Controllers/error/expressErrorController");
 
 const app = express();
 
@@ -51,6 +52,8 @@ app.use("/shop", shopRoutes);
 app.use("/auth", authRoutes);
 app.use(homeRoute);
 app.use(errorRoute);
+//* THIS MUST BE KEPT LAST IN THE MIDDLEWARE STACK.
+app.use(expressErrorController);
 
 //? "events" core module check
 const serverStarted = new EventEmitter();

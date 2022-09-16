@@ -36,9 +36,8 @@ const postLoginController = (req, res) => {
       return res.redirect("/auth/login");
     })
     .catch((error) => {
-      const tempError = new Error(error?.message);
-      tempError.httpStatusCode = 500;
-      next(tempError);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 

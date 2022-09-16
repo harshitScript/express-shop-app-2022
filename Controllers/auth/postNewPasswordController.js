@@ -5,9 +5,8 @@ const postNewPasswordController = (req, res, next) => {
   const { new_password, userId, reset_password_token } = req.body;
 
   const failureCallback = (error) => {
-    const tempError = new Error(error?.message);
-    tempError.httpStatusCode = 500;
-    next(tempError);
+    error.httpStatusCode = 500;
+    return next(error);
   };
 
   User.findOne({

@@ -11,8 +11,7 @@ const getProductListController = (req, res, next) => {
     });
   };
 
-  const productsFailureCallback = (err) => {
-    const error = new Error(err?.message);
+  const productsFailureCallback = (error) => {
     error.httpStatusCode = 500;
     return next(error);
   };
