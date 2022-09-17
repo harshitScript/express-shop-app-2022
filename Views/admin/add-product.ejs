@@ -11,7 +11,12 @@
     validation_errors.forEach(function(validation_error){ %>
     <p class="error"><%= validation_error?.msg %></p>
     <% }) %> <% } %>
-    <form class="product-form" method="POST" action="/admin/product">
+    <form
+      class="product-form"
+      method="POST"
+      action="/admin/product"
+      enctype="multipart/form-data"
+    >
       <div class="form-control">
         <label for="title"> Title : </label>
         <input
@@ -25,8 +30,8 @@
         />
       </div>
       <div class="form-control">
-        <label for="imageUrl"> Image Url : </label>
-        <input
+        <label for="image"> Image : </label>
+        <!-- <input
           class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'imageURL') ? 'invalid' : '' %>"
           type="text"
           name="imageURL"
@@ -34,6 +39,14 @@
           id="imageUrl"
           placeholder="enter image url"
           value="<%= old_input.imageURL %>"
+        /> -->
+        <input
+          class="w-100 <%= validation_errors.find(error_obj => error_obj.param === 'image') ? 'invalid' : '' %>"
+          type="file"
+          name="image"
+          required
+          id="image"
+          accepts="image/*"
         />
       </div>
       <div class="form-control">

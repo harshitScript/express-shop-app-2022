@@ -8,7 +8,7 @@ const flash = require("connect-flash");
 //? Core modules
 const path = require("path");
 const EventEmitter = require("events");
-const bodyParser = require("body-parser");
+const { urlencoded } = require("body-parser");
 
 //? Local imports
 const { connectMongoose, sessionStoreCreator } = require("./util/database");
@@ -21,6 +21,7 @@ const authenticationChecker = require("./Controllers/auth/authenticationChecker"
 const checkEnv = require("./envCheck");
 const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
 const expressErrorController = require("./Controllers/error/expressErrorController");
+const multer = require("multer");
 
 const app = express();
 
@@ -43,8 +44,12 @@ app.use(
     },
   })
 );
+app.use(urlencoded({ extended: false }));
+app.use(
+  multer({ dest: path.join(__dirname, "product-images") }).single("image")
+);
 app.use(flash());
-app.use(bodyParser.urlencoded({ extended: false }), csrf());
+app.use(csrf());
 app.use(authenticationChecker);
 app.use(commonViewOptionsProviderMiddleware);
 app.use("/admin", adminRoutes);
@@ -59,9 +64,7 @@ app.use(expressErrorController);
 const serverStarted = new EventEmitter();
 
 serverStarted.on("server_on", () => {
-  console.log(
-    `Harshit's Express Server is running on port ${process.env.PORT}`
-  );
+  console.log(`Express Server is running on port ${process.env.PORT}`);
 });
 
 const databaseConnectionSuccessCallback = async () => {

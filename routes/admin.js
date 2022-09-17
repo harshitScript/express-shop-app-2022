@@ -17,6 +17,7 @@ const adminRoutes = express.Router();
 adminRoutes.post(
   "/product",
   bodyParser.urlencoded({ extended: false }),
+
   [
     body("title")
       .trim()

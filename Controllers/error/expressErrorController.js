@@ -1,4 +1,6 @@
 const expressErrorController = (error, req, res, next) => {
+  console.log("The Error handled is: ", error);
+
   if (error.httpStatusCode === 500) {
     //* WE RETURN DIFFERENT ERROR RESPONSE BASED ON THIS META INFORMATION.
     return res.status(500).redirect("/server-error");

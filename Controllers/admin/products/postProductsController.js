@@ -2,7 +2,9 @@ const Product = require("../../../Modals/product");
 const { validationResult } = require("express-validator");
 
 const postProductsController = (req, res, next) => {
-  const { title, price, description, imageURL } = req.body;
+  const { title, price, description } = req.body;
+
+  const image = req.file;
 
   const validationErrors = validationResult(req);
 
