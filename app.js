@@ -8,7 +8,6 @@ const flash = require("connect-flash");
 //? Core modules
 const path = require("path");
 const EventEmitter = require("events");
-const { urlencoded } = require("body-parser");
 
 //? Local imports
 const { connectMongoose, sessionStoreCreator } = require("./util/database");
@@ -21,7 +20,6 @@ const authenticationChecker = require("./Controllers/auth/authenticationChecker"
 const checkEnv = require("./envCheck");
 const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
 const expressErrorController = require("./Controllers/error/expressErrorController");
-const multer = require("multer");
 
 const app = express();
 
@@ -33,6 +31,7 @@ config(); //* to access the env files
 //* => Request will fall down from here.
 
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   sessions({
     secret: process.env.SECRET,
@@ -44,12 +43,7 @@ app.use(
     },
   })
 );
-app.use(urlencoded({ extended: false }));
-app.use(
-  multer({ dest: path.join(__dirname, "product-images") }).single("image")
-);
 app.use(flash());
-app.use(csrf());
 app.use(authenticationChecker);
 app.use(commonViewOptionsProviderMiddleware);
 app.use("/admin", adminRoutes);

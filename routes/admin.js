@@ -1,6 +1,6 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const { body } = require("express-validator");
+const csrf = require("csurf");
 
 //? Controllers
 const getAddProductsController = require("../controllers/admin/products/getAddProductsController");
@@ -10,14 +10,15 @@ const getAdminProductsController = require("../controllers/admin/products/getAdm
 const deleteProductController = require("../controllers/admin/products/deleteProductController");
 const editProductsController = require("../controllers/admin/products/editProductsController");
 const isAdminAuthMiddleware = require("../Controllers/middleware/isAdminAuthMiddleware");
+const { uploadProductImage } = require("../file-upload.config");
 
 const adminRoutes = express.Router();
 
 //* "/admin/product"
 adminRoutes.post(
   "/product",
-  bodyParser.urlencoded({ extended: false }),
-
+  uploadProductImage.single("image"),
+  csrf(),
   [
     body("title")
       .trim()
@@ -40,19 +41,21 @@ adminRoutes.post(
 //* "/admin/add-product"
 adminRoutes.get(
   "/add-product",
+  csrf(),
   isAdminAuthMiddleware,
   getAddProductsController
 );
 
 adminRoutes.get(
   "/edit-product",
+  csrf(),
   isAdminAuthMiddleware,
   getEditProductsController
 );
 
 adminRoutes.post(
   "/edit-product/:id",
-  bodyParser.urlencoded({ extended: false }),
+  uploadProductImage.single("image"),
   [
     body("title")
       .trim()
@@ -78,6 +81,11 @@ adminRoutes.get(
   deleteProductController
 );
 
-adminRoutes.get("/products", isAdminAuthMiddleware, getAdminProductsController);
+adminRoutes.get(
+  "/products",
+  csrf(),
+  isAdminAuthMiddleware,
+  getAdminProductsController
+);
 
 module.exports = { adminRoutes }; //? a valid middleware

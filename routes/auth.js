@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const { urlencoded } = require("body-parser");
 const { body, header, query, param, check } = require("express-validator");
 
 const User = require("../Modals/User");
@@ -12,26 +12,38 @@ const getResetPasswordController = require("../Controllers/auth/getResetPassword
 const postResetPasswordController = require("../Controllers/auth/postResetPasswordController");
 const getNewPasswordFormController = require("../Controllers/auth/getNewPasswordFormController");
 const postNewPasswordController = require("../Controllers/auth/postNewPasswordController");
+const csrf = require("csurf");
 
 const authRoutes = express.Router();
 
-authRoutes.get("/login", getLoginFormController);
+authRoutes.get("/login", csrf(), getLoginFormController);
 
-authRoutes.get("/reset-password/:reset_token", getNewPasswordFormController);
+authRoutes.get(
+  "/reset-password/:reset_token",
+  csrf(),
+  getNewPasswordFormController
+);
 
 authRoutes.post(
   "/save-new-password",
-  bodyParser.urlencoded({ extended: false }),
+  urlencoded({ extended: false }),
+  csrf(),
   postNewPasswordController
 );
 
-authRoutes.get("/reset-password", getResetPasswordController);
+authRoutes.get("/reset-password", csrf(), getResetPasswordController);
 
-authRoutes.post("/reset-password", postResetPasswordController);
+authRoutes.post(
+  "/reset-password",
+  urlencoded({ extended: false }),
+  csrf(),
+  postResetPasswordController
+);
 
 authRoutes.post(
   "/authenticating",
-  bodyParser.urlencoded({ extended: false }),
+  urlencoded({ extended: false }),
+  csrf(),
   [
     body("email").isEmail().withMessage("Email not valid.").normalizeEmail(),
     body("password")
@@ -42,46 +54,46 @@ authRoutes.post(
   postLoginController
 );
 
-authRoutes.post("/logout", postLogoutController);
+authRoutes.post("/logout", csrf(), postLogoutController);
 
-authRoutes.get("/signup", getSignUpController);
+authRoutes.get("/signup", csrf(), getSignUpController);
 
 authRoutes.post(
   "/signup-user",
+  urlencoded({ extended: false }),
+  csrf(),
+  [
+    body("name")?.trim().isString().withMessage("Name must be in characters"),
+    body("email")
+      .isEmail()
+      .withMessage("Email not valid.")
+      .custom((value) => {
+        return User.findOne({ email: value }).then((user) => {
+          if (user) {
+            //* Used to throw error from inside the promises.
+            return Promise.reject("Email id already exist.");
+          }
+        });
+      })
+      .normalizeEmail(),
 
-  bodyParser.urlencoded({ extended: false }),
+    body("password")
+      ?.trim()
+      ?.isLength({ min: 5, max: 15 })
+      .withMessage("Password Must be between 5-15 characters"),
 
-  body("name")?.trim().isString().withMessage("Name must be in characters"),
-
-  body("email")
-    .isEmail()
-    .withMessage("Email not valid.")
-    .custom((value) => {
-      return User.findOne({ email: value }).then((user) => {
-        if (user) {
-          //* Used to throw error from inside the promises.
-          return Promise.reject("Email id already exist.");
+    body("confirm-password")
+      ?.trim()
+      ?.isLength({ min: 5, max: 15 })
+      .withMessage("Password Must be between 5-15 characters")
+      .custom((value, { req }) => {
+        //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
+        if (value !== req.body.password) {
+          throw new Error("Password not matched !");
         }
-      });
-    })
-    .normalizeEmail(),
-
-  body("password")
-    ?.trim()
-    ?.isLength({ min: 5, max: 15 })
-    .withMessage("Password Must be between 5-15 characters"),
-
-  body("confirm-password")
-    ?.trim()
-    ?.isLength({ min: 5, max: 15 })
-    .withMessage("Password Must be between 5-15 characters")
-    .custom((value, { req }) => {
-      //? USED TO DEFINE CUSTOM ERRORS VALIDATOR METHODS
-      if (value !== req.body.password) {
-        throw new Error("Password not matched !");
-      }
-      return true;
-    }),
+        return true;
+      }),
+  ],
   postSignUpController
 );
 

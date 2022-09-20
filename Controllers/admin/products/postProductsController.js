@@ -4,7 +4,12 @@ const { validationResult } = require("express-validator");
 const postProductsController = (req, res, next) => {
   const { title, price, description } = req.body;
 
-  const image = req.file;
+  const imageURL = req?.file?.path;
+
+  if (!imageURL) {
+    req.flash("error", "Invalid file type.");
+    return res.redirect("/admin/add-product");
+  }
 
   const validationErrors = validationResult(req);
 

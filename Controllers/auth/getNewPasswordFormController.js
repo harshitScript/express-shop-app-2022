@@ -24,6 +24,7 @@ const getNewPasswordFormController = (req, res, next) => {
         noNavigation: false,
         errorMessage: req.flash("error")[0],
         userId: user?._id,
+        csrfToken: req.csrfToken(),
         resetPasswordToken: user.resetPasswordToken,
       });
     })
