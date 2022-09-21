@@ -1,6 +1,7 @@
 <% if(isAuthenticated && role === "user"){ %>
 <form method="POST" action="/shop/cart/<%= singleProduct?._id %>">
   <input type="hidden" name="product_id" value="<%= singleProduct?._id %>" />
+  <%- include("./csrf-token-input.ejs") %>
   <button class="btn">Add To Cart</button>
 </form>
 <% } %>

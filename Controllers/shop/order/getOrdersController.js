@@ -7,6 +7,7 @@ const getOrdersController = (req, res, next) => {
       docFooter: "Your orders history.",
       path: "/shop/orders",
       ordersData,
+      csrfToken: req.csrfToken(),
       noNavigation: false,
     });
   };

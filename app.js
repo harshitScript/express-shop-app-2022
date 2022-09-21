@@ -20,6 +20,7 @@ const authenticationChecker = require("./Controllers/auth/authenticationChecker"
 const checkEnv = require("./envCheck");
 const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
 const expressErrorController = require("./Controllers/error/expressErrorController");
+const { urlencoded } = require("body-parser");
 
 const app = express();
 
@@ -30,6 +31,7 @@ config(); //* to access the env files
 
 //* => Request will fall down from here.
 
+app.use(urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
