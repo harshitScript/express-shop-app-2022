@@ -10,6 +10,7 @@ const getEditProductsController = (req, res, next) => {
       path: "/admin/edit-product",
       product: product,
       noNavigation: false,
+      csrfToken: req.csrfToken(),
       error: req.flash("error")[0],
       success: req.flash("success")[0],
       validation_errors: req.flash("validation_error"),

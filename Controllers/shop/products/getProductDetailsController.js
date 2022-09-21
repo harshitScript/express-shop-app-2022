@@ -9,6 +9,7 @@ const getProductDetailsController = (req, res, next) => {
       docFooter: "Your product's overview.",
       path: "/shop/product-details",
       singleProduct: product,
+      csrfToken: req.csrfToken(),
       noNavigation: false,
     });
   };

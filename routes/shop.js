@@ -1,5 +1,6 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const { urlencoded } = require("body-parser");
+const csrf = require("csurf");
 
 //? Product imports
 const getProductListController = require("../controllers/shop/products/getProductListController");
@@ -19,14 +20,16 @@ const shopRoutes = express.Router();
 shopRoutes.post(
   "/cart/:id/delete",
   isUserAuthMiddleware,
-  bodyParser.urlencoded({ extended: false }),
+  urlencoded({ extended: false }),
+  csrf(),
   deleteCartProductController
 );
 
 shopRoutes.post(
   "/cart/:id",
   isUserAuthMiddleware,
-  bodyParser.urlencoded({ extended: false }),
+  urlencoded({ extended: false }),
+  csrf(),
   addToCartController
 );
 
@@ -42,8 +45,8 @@ shopRoutes.get(
   getOrderOverviewController
 );
 
-shopRoutes.get("/product-details/:id", getProductDetailsController);
+shopRoutes.get("/product-details/:id", csrf(), getProductDetailsController);
 
-shopRoutes.get("/", getProductListController);
+shopRoutes.get("/", csrf(), getProductListController);
 
 module.exports = shopRoutes; //? a valid middleware

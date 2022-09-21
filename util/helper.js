@@ -35,10 +35,18 @@ const tokenGenerationPromise = new Promise((resolve, reject) => {
   });
 });
 
+
+const acceptedMimeTypes = {
+  "image/png" : true,
+  "image/jpg" : true,
+  "image/jpeg": true,
+}
+
 module.exports = {
   getCartTotal,
   objectIdToStringId,
   stringIdToObjectId,
   generateHashedPassword,
   tokenGenerationPromise,
+  acceptedMimeTypes
 };

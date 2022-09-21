@@ -4,6 +4,7 @@ const getSignUpController = (req, res) => {
     docFooter: "The sign up form.",
     path: "/auth/signup",
     noNavigation: false,
+    csrfToken: req.csrfToken(),
     error: req.flash("error")[0],
     success: req.flash("success")[0],
     validation_errors: req.flash("validation_error"),

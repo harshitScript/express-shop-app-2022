@@ -4,6 +4,7 @@ const getHomeController = (req, res, next) => {
     docFooter: "Home page of your shop.",
     path: "/",
     noNavigation: true,
+    csrfToken: req.csrfToken(),
     successMessage: req.flash("success")[0],
     errorMessage: req.flash("error")[0],
   });
