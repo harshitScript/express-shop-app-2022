@@ -8,7 +8,7 @@
       <div class="card-product-img-title">
         <img
           class="cart_product_image"
-          src="<%= singleProduct?.imageURL %>"
+          src="/<%= singleProduct?.imageURL %>"
           alt="image"
         />
 
@@ -58,6 +58,7 @@
   </div>
 
   <form method="POST" action="/shop/orders">
+    <%- include("../includes/csrf-token-input.ejs") %>
     <button class="floating_pay_button">Checkout</button>
   </form>
 

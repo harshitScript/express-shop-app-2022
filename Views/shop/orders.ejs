@@ -6,6 +6,7 @@
     <% ordersData.forEach(function(order){ %>
     <article class="card cart-product-item">
       <b> Order #<%= order?._id %> </b>
+      <a href="/shop/order-invoice/<%= order?._id %>" class="btn">Invoice</a>
       <a href="/shop/order-overview/<%= order?._id %>" class="btn">Overview</a>
     </article>
     <% }); %>

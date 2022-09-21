@@ -9,6 +9,7 @@ const getCartController = (req, res, next) => {
       docFooter: "Cart of your shop.",
       path: "/shop/cart",
       cartData,
+      csrfToken: req.csrfToken(),
       cartTotal: getCartTotal(cartData),
       noNavigation: false,
     });
