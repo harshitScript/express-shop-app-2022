@@ -1,9 +1,14 @@
 const Product = require("../../../Modals/product");
+const { deleteFile } = require("../../../util/fileOps");
+const rootDir = require("../../../util/path");
+const path = require("path");
 
 const deleteProductController = (req, res, next) => {
   const { id } = req.query;
 
-  const successCallback = () => {
+  const successCallback = (product) => {
+    deleteFile({ filePath: path.join(rootDir, product.imageURL) });
+
     return res.redirect("/admin/products");
   };
 
