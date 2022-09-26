@@ -20,7 +20,7 @@ const postProductsController = (req, res, next) => {
   }
 
   const successCallback = () => {
-    return res.redirect("/admin/products");
+    return res.redirect("/admin/products/1");
   };
 
   const failureCallback = (error) => {

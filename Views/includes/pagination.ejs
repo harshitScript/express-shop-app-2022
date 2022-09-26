@@ -1,11 +1,14 @@
 <nav class="footer-pagination">
   <ul class="pagination-link-outer">
     <% Array(numberOfPages).fill("_").forEach(function(x,index){ %>
-    <li>
-      <% if(type === "admin"){ %><a href="/<%= type %>/products/<%= index+1  %>"
+    <li class="pagination-link-outer-li">
+      <% if(type === "admin"){ %><a
+        class="links"
+        href="/<%= type %>/products/<%= index+1  %>"
         ><%= index+1 %></a
-      ><% } else { %><a href="/<%= type %>/<%= index+1  %>"><%= index+1 %></a><%
-      } %>
+      ><% } else { %><a class="links" href="/<%= type %>/<%= index+1  %>"
+        ><%= index+1 %></a
+      ><% } %>
     </li>
     <% }) %>
   </ul>

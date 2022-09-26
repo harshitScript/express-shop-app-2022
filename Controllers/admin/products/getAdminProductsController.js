@@ -3,7 +3,7 @@ const Product = require("../../../Modals/product");
 const getAdminProductsController = (req, res, next) => {
   const { page } = req.params;
 
-  global.console.log("The page number =>", page);
+  let totalProducts = 0;
 
   const adminProductsListCallback = (products) => {
     return res.render("admin/products", {
@@ -14,8 +14,15 @@ const getAdminProductsController = (req, res, next) => {
       csrfToken: req.csrfToken(),
       noNavigation: false,
       isAuthenticated: req.isAuthenticated,
-      numberOfPages: 4,
+      numberOfPages: Math.ceil(totalProducts / process.env.ITEMS_PER_PAGE),
     });
+  };
+
+  const countCallback = (count) => {
+    totalProducts = count;
+    return Product.find()
+      .skip((page - 1) * process.env.ITEMS_PER_PAGE)
+      .limit(2);
   };
 
   const adminProductsListFailureCallback = (error) => {
@@ -24,6 +31,8 @@ const getAdminProductsController = (req, res, next) => {
   };
 
   Product.find()
+    .countDocuments()
+    .then(countCallback)
     .then(adminProductsListCallback)
     .catch(adminProductsListFailureCallback);
 };

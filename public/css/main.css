@@ -440,7 +440,6 @@ button:hover,
 }
 
 a.links,
-a.links:active,
 a.links:visited {
   color: yellow !important;
   text-decoration: none !important;
@@ -449,6 +448,7 @@ a.links:visited {
   -moz-transition: all 0.5s;
   -ms-transition: all 0.5s;
   -o-transition: all 0.5s;
+  font-weight: bold;
 }
 
 a.links:hover {
@@ -473,4 +473,20 @@ a.links:hover {
   align-items: center;
   justify-content: space-around;
   list-style-type: none;
+}
+
+.pagination-link-outer-li {
+  padding: 1rem 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid yellow;
+}
+
+.pagination-link-outer-li:hover {
+  border: 1px solid lightgreen;
+  color: lightgreen;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
 }

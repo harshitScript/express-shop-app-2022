@@ -28,7 +28,7 @@ const postLoginController = (req, res) => {
           }
 
           return res.redirect(
-            user.role === "admin" ? "/admin/products" : "/shop/"
+            user.role === "admin" ? "/admin/products/1" : "/shop/1"
           );
         });
       }
