@@ -54,6 +54,6 @@ shopRoutes.get(
 
 shopRoutes.get("/product-details/:id", csrf(), getProductDetailsController);
 
-shopRoutes.get("/", csrf(), getProductListController);
+shopRoutes.get("/:page", csrf(), getProductListController);
 
 module.exports = shopRoutes; //? a valid middleware

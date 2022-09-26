@@ -1,6 +1,8 @@
 const Product = require("../../../Modals/product");
 
 const getProductListController = (req, res, next) => {
+  const { page } = req.params;
+
   const productsCallback = (products) => {
     return res.render("shop/product-list", {
       docTitle: "Product listing",
@@ -9,6 +11,7 @@ const getProductListController = (req, res, next) => {
       path: "/shop/",
       csrfToken: req.csrfToken(),
       noNavigation: false,
+      numberOfPages: 4,
     });
   };
 

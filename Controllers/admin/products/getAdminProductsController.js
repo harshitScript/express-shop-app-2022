@@ -1,6 +1,10 @@
 const Product = require("../../../Modals/product");
 
 const getAdminProductsController = (req, res, next) => {
+  const { page } = req.params;
+
+  global.console.log("The page number =>", page);
+
   const adminProductsListCallback = (products) => {
     return res.render("admin/products", {
       docTitle: "Admin Products",
@@ -10,6 +14,7 @@ const getAdminProductsController = (req, res, next) => {
       csrfToken: req.csrfToken(),
       noNavigation: false,
       isAuthenticated: req.isAuthenticated,
+      numberOfPages: 4,
     });
   };
 

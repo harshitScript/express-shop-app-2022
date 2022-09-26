@@ -30,17 +30,11 @@
         <p class="product-id">#<%= singleProduct._id %></p>
       </header>
     </article>
-    <% }); %>
+    <% }); %> <%- include("../includes/logout-btn.ejs") %> <%-
+    include("../includes/pagination.ejs",{numberOfPages,type :"shop"}) %>
   </div>
-  <%- include("../includes/logout-btn.ejs") %> <% } else { %>
+  <% } else { %>
   <p>No products</p>
   <% } %>
 </main>
 <%- include("../includes/end.ejs") %>
-
-<!--
-    The HTML5 body structure is:
-    <header></header>
-    <main></main>
-    <footer></footer>
--->

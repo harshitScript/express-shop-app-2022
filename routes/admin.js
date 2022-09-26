@@ -82,7 +82,7 @@ adminRoutes.get(
 );
 
 adminRoutes.get(
-  "/products",
+  "/products/:page",
   csrf(),
   isAdminAuthMiddleware,
   getAdminProductsController

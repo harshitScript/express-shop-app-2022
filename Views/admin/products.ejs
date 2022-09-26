@@ -35,7 +35,8 @@
         </div>
       </header>
     </article>
-    <% }); %>
+    <% }); %> <%- include("../includes/pagination.ejs",{numberOfPages,type :
+    "admin"}) %>
   </div>
   <%- include("../includes/logout-btn.ejs") %> <% } else { %>
   <p>No products</p>
