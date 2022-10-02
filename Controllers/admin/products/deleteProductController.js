@@ -4,20 +4,20 @@ const rootDir = require("../../../util/path");
 const path = require("path");
 
 const deleteProductController = (req, res, next) => {
-  const { id } = req.query;
+  const { product_id } = req.params;
 
   const successCallback = (product) => {
     deleteFile({ filePath: path.join(rootDir, product.imageURL) });
-
-    return res.redirect("/admin/products");
+    return res.json({ message: "Deletion successful." });
   };
 
   const failureCallback = (error) => {
-    error.httpStatusCode = 500;
-    return next(error);
+    return res.status(500).json({ message: error.message });
   };
 
-  Product.findByIdAndDelete(id).then(successCallback).catch(failureCallback);
+  Product.findByIdAndDelete(product_id)
+    .then(successCallback)
+    .catch(failureCallback);
 };
 
 module.exports = deleteProductController;

@@ -75,8 +75,8 @@ adminRoutes.post(
   editProductsController
 );
 
-adminRoutes.get(
-  "/delete-product",
+adminRoutes.delete(
+  "/delete-product/:product_id",
   isAdminAuthMiddleware,
   deleteProductController
 );
