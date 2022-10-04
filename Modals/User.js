@@ -110,7 +110,7 @@ userSchema.methods.removeFromCart = function (product_id = "") {
   return this.save();
 };
 
-userSchema.methods.getCart = function (successCallback, failureCallback) {
+userSchema.methods.getCart = function () {
   const cartDataMaker = (userWithPopulatedProductId) => {
     return userWithPopulatedProductId?.cart?.map((rawObj) => ({
       ...rawObj?.product_id?._doc,
@@ -118,10 +118,7 @@ userSchema.methods.getCart = function (successCallback, failureCallback) {
     }));
   };
 
-  this.populate("cart.product_id")
-    .then(cartDataMaker)
-    .then(successCallback)
-    .catch(failureCallback);
+  return this.populate("cart.product_id").then(cartDataMaker);
 };
 
 userSchema.methods.clearCart = function () {

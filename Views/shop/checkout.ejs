@@ -1,0 +1,43 @@
+<%- include("../includes/head.ejs") %> <%- include("../includes/navigation.ejs")
+%>
+<main>
+  <div class="product_details_main_grid">
+    <div class="grid_cell_1">
+      <% if(!!checkoutProducts.length){ %> <%
+      checkoutProducts.forEach(function(singleProduct){ %>
+      <article class="card cart-product-item w-80 horizontal-centered mb-1">
+        <div class="card-product-img-title">
+          <img
+            class="cart_product_image"
+            src="/<%= singleProduct?.imageURL %>"
+            alt="image"
+          />
+
+          <h1 class="product__title"><%= singleProduct.title %></h1>
+        </div>
+
+        <div class="flex-row-centered gap-half-rem">
+          <p><%= singleProduct?.quantity %></p>
+        </div>
+
+        <div class="card__actions">
+          <a href="#" class="btn"
+            >₹ <%= singleProduct?.price %> x <%= singleProduct?.quantity %></a
+          >
+        </div>
+        <div class="card__actions"></div>
+      </article>
+      <% }); %> <% }else{ %> No products Found.<% } %>
+    </div>
+    <div class="grid_cell_2">
+      <div class="card">
+        <h1 class="text-center">Checkout</h1>
+        <a href="/shop/payments" id="checkout-btn" class="btn w-100">
+          Pay : <%= totalAmount %>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include("../includes/end.ejs") %>

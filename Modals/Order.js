@@ -7,6 +7,10 @@ const orderSchema = new Schema({
     ref: "User",
     required: true,
   },
+  paymentStatus: {
+    type: String,
+    required: true,
+  },
   products: {
     type: [
       {
@@ -23,8 +27,6 @@ const orderSchema = new Schema({
     ],
   },
 });
-
-
 
 module.exports = mongoose.model("Order", orderSchema);
 

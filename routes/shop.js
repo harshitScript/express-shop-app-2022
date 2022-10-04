@@ -15,6 +15,10 @@ const getOrderOverviewController = require("../controllers/shop/order/getOrderOv
 //? Auth imports
 const isUserAuthMiddleware = require("../Controllers/middleware/isUserAuthMiddleware");
 const getOrderInvoiceController = require("../Controllers/shop/order/getOrderInvoiceController");
+const getCheckoutController = require("../Controllers/shop/checkout/getCheckoutController");
+const getPaymentsPageController = require("../Controllers/shop/checkout/getPaymentsPageController");
+const getPaymentsSuccessController = require("../Controllers/shop/checkout/getPaymentsSuccessController");
+const getPaymentsCancelController = require("../Controllers/shop/checkout/getPaymentsCancelController");
 
 const shopRoutes = express.Router();
 
@@ -35,6 +39,27 @@ shopRoutes.post(
 );
 
 shopRoutes.get("/cart", csrf(), isUserAuthMiddleware, getCartController);
+
+shopRoutes.get(
+  "/checkout",
+  csrf(),
+  isUserAuthMiddleware,
+  getCheckoutController
+);
+
+shopRoutes.get("/payments", isUserAuthMiddleware, getPaymentsPageController);
+
+shopRoutes.get(
+  "/payment-success",
+  isUserAuthMiddleware,
+  getPaymentsSuccessController
+);
+
+shopRoutes.get(
+  "/payment-cancel",
+  isUserAuthMiddleware,
+  getPaymentsCancelController
+);
 
 shopRoutes.get("/orders", csrf(), isUserAuthMiddleware, getOrdersController);
 

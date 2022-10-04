@@ -57,10 +57,7 @@
     <% }); %>
   </div>
 
-  <form method="POST" action="/shop/orders">
-    <%- include("../includes/csrf-token-input.ejs") %>
-    <button class="floating_pay_button">Checkout</button>
-  </form>
+  <a href="/shop/checkout" class="floating_pay_button">Checkout</a>
 
   <%- include("../includes/logout-btn.ejs") %> <% } else { %>
   <p class="empty_cart_msg">Cart seems empty.</p>

@@ -20,7 +20,7 @@ const getCartController = (req, res, next) => {
     return next(error);
   };
 
-  user.getCart(successCallback, failureCallback);
+  user.getCart().then(successCallback).catch(failureCallback);
 };
 
 module.exports = getCartController;

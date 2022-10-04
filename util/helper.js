@@ -3,7 +3,7 @@ const { createHmac, randomBytes } = require("crypto");
 
 const getCartTotal = (cartData = []) => {
   return cartData.reduce((acc, curr) => {
-    return (acc += +curr.price * +curr?.cartProduct?.quantity);
+    return (acc += +curr.price * +curr?.quantity);
   }, 0);
 };
 
@@ -35,12 +35,11 @@ const tokenGenerationPromise = new Promise((resolve, reject) => {
   });
 });
 
-
 const acceptedMimeTypes = {
-  "image/png" : true,
-  "image/jpg" : true,
+  "image/png": true,
+  "image/jpg": true,
   "image/jpeg": true,
-}
+};
 
 module.exports = {
   getCartTotal,
@@ -48,5 +47,5 @@ module.exports = {
   stringIdToObjectId,
   generateHashedPassword,
   tokenGenerationPromise,
-  acceptedMimeTypes
+  acceptedMimeTypes,
 };
