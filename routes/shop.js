@@ -1,5 +1,5 @@
 const express = require("express");
-const { urlencoded } = require("body-parser");
+const { urlencoded, raw } = require("body-parser");
 const csrf = require("csurf");
 
 //? Product imports
@@ -19,6 +19,7 @@ const getCheckoutController = require("../Controllers/shop/checkout/getCheckoutC
 const getPaymentsPageController = require("../Controllers/shop/checkout/getPaymentsPageController");
 const getPaymentsSuccessController = require("../Controllers/shop/checkout/getPaymentsSuccessController");
 const getPaymentsCancelController = require("../Controllers/shop/checkout/getPaymentsCancelController");
+const postStripePaymentWebhookController = require("../Controllers/shop/checkout/postStripePaymentWebhookController");
 
 const shopRoutes = express.Router();
 
@@ -59,6 +60,13 @@ shopRoutes.get(
   "/payment-cancel",
   isUserAuthMiddleware,
   getPaymentsCancelController
+);
+
+//! Register the stripe webhook after deployment of the application.
+shopRoutes.post(
+  "/webhook",
+  raw({ type: "application/json" }),
+  postStripePaymentWebhookController
 );
 
 shopRoutes.get("/orders", csrf(), isUserAuthMiddleware, getOrdersController);
