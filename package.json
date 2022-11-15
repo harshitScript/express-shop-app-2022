@@ -4,7 +4,8 @@
   "description": "The first project after installing expressjs",
   "main": "app.js",
   "scripts": {
-    "start": "node envCheck.js && nodemon app.js",
+    "start": "node app.js",
+    "start:dev": "nodemon app.js",
     "test": "node ./test.js"
   },
   "author": "Harshit Bhawsar",

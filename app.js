@@ -1,8 +1,6 @@
 //? Third party modules
 const express = require("express");
 const sessions = require("express-session");
-const { config } = require("dotenv");
-const csrf = require("csurf");
 const flash = require("connect-flash");
 
 //? Core modules
@@ -26,8 +24,6 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-config(); //* to access the env files
 
 //* => Request will fall down from here.
 
@@ -77,16 +73,7 @@ const databaseConnectionFailureCallback = (error) => {
   console.log("The error is: ", error);
 };
 
-const envFailureCallback = () => {
-  console.log(".env FILE IS NOT FOUND.");
-};
-
-checkEnv()
-  .then(
-    connectMongoose.bind(
-      null,
-      databaseConnectionSuccessCallback,
-      databaseConnectionFailureCallback
-    )
-  )
-  .catch(envFailureCallback);
+connectMongoose(
+  databaseConnectionSuccessCallback,
+  databaseConnectionFailureCallback
+);

@@ -1,7 +1,5 @@
 const stripe = require("stripe");
-const stripeSession = stripe(
-  "sk_test_51Los4cSGvdYvFcADrbGZm6DPmub6gQgrQJCc0NrQv8gFmQEHyz7kZEw0OsN9Iac4nMDP5YbbqHlG1X8q16GW5yjc00FLFuBqQh"
-);
+const stripeSession = stripe(process.env.STRIPE_KEY);
 
 const getPaymentsPageController = (req, res, next) => {
   const { user } = req;
