@@ -2,10 +2,15 @@
 const express = require("express");
 const sessions = require("express-session");
 const flash = require("connect-flash");
+const helmet = require("helmet");
+const compression = require("compression");
+const morgan = require("morgan");
+const { config } = require("dotenv");
 
 //? Core modules
 const path = require("path");
 const EventEmitter = require("events");
+const fs = require("fs");
 
 //? Local imports
 const { connectMongoose, sessionStoreCreator } = require("./util/database");
@@ -15,18 +20,25 @@ const { adminRoutes } = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const authRoutes = require("./routes/auth");
 const authenticationChecker = require("./Controllers/auth/authenticationChecker");
-const checkEnv = require("./envCheck");
 const commonViewOptionsProviderMiddleware = require("./Controllers/middleware/commonViewOptionsProviderMiddleware");
 const expressErrorController = require("./Controllers/error/expressErrorController");
 const { urlencoded } = require("body-parser");
 
 const app = express();
 
+config();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 //* => Request will fall down from here.
 
+const accessLogsStream = fs.createWriteStream(
+  path.join(__dirname, "access.log")
+);
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", { stream: accessLogsStream }));
 app.use(urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
