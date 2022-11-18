@@ -1,4 +1,4 @@
-const errorController = (req, res) => {
+const notFoundController = (req, res) => {
   return res.status(404).render("error/404.ejs", {
     docTitle: "Page Not Found",
     docFooter: "Are you lost baby girl.",
@@ -7,4 +7,4 @@ const errorController = (req, res) => {
   });
 };
 
-module.exports = errorController;
+module.exports = notFoundController;
